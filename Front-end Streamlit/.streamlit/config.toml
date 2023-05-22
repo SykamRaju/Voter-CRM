@@ -1,0 +1,32 @@
+
+[general]
+app_name = "V V V V"
+debug = true
+
+[api_url]
+
+api_base_url = "http://127.0.0.1:8000/api"
+auth_login = "/auth/login"
+is_logged_in = "/auth/is_logged_in"
+state = "/state"
+states = "/states"
+
+
+[theme]
+primaryColor="#1b4332"
+backgroundColor="#fff"
+secondaryBackgroundColor="#e9ecef"
+textColor="#000"
+font="sans serif"
+
+
+[client]
+
+# Whether to enable st.cache.
+# Default: true
+caching = false
+
+
+[logger]
+
+toolbarMode = "developer"
