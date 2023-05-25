@@ -50,3 +50,4 @@ class API:
     def is_logged_in(self):
         response=requests.post(self.base_url+api_path_is_logged_in,headers=self.base_headers)
         return response.status_code==200
+    

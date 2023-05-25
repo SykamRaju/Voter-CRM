@@ -27,6 +27,7 @@ def get_all_states():
             state_dict['state_code']=state.state_code
             state_dict['state_name']=state.state_name
             state_dict['country']=state.country
+            state_dict['actions']='Actions'
             state_list.append(state_dict)
         return {"states": state_list}
     else:

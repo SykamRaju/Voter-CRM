@@ -44,18 +44,27 @@ if api.is_logged_in():
     # AddState(api.add_state)
     # st.write("___________")
     # DisplayStates(api.get_states)
+
+    with st.sidebar:
+        selected = option_menu(
+            menu_title="Actions",
+            options=["Log out"]
+        )
+
+
     with st.sidebar:
         selected = option_menu(
             menu_title="Main Menu",
-            options=["Add State", "Display States"]
+            options=["States","Districts","Constituencies","Parites"]
         )
 
-    if selected == "Add State":
-        AddState(api.add_state)
-        #st.title("you have selected Add State")
-    if selected == "Display States":
-        #st.title("you have selected Display states")
+
+    if selected == "States":
         DisplayStates(api.get_states)
+    # if selected == "Districts":
+    #     DisplayStates(api.get_districts)        
+    # if selected == "Constituencies":
+    #     DisplayStates(api.get_constituencies)    
 
 
 else:
