@@ -6,8 +6,8 @@ config = toml.load(".streamlit/config.toml")
 api_path_auth_login = config['api_url']['auth_login']
 api_path_is_logged_in = config['api_url']['is_logged_in']
 
-api_path_state = config['api_url']['state']
-api_path_states = config['api_url']['states']
+api_path_add_state = config['api_url']['add_state']
+api_path_list_states = config['api_url']['list_states']
 api_path_update_state = config['api_url']['update_state']
 api_path_delete_state = config['api_url']['delete_state']
 
@@ -22,7 +22,7 @@ class API:
             states={
                 "state_name":state_name,                
             }
-            response=requests.post(self.base_url+api_path_state,json=states,headers=self.base_headers)
+            response=requests.post(self.base_url+api_path_add_state,json=states,headers=self.base_headers)
             if response.status_code==200:
                 return True
         except:
@@ -53,7 +53,7 @@ class API:
 
     def get_states(self):
         try:
-            response=requests.get(self.base_url+api_path_states,headers=self.base_headers)
+            response=requests.get(self.base_url+api_path_list_states,headers=self.base_headers)
             return response.json()['states']
         except:
             return None
