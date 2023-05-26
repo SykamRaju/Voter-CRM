@@ -26,18 +26,8 @@ def manage_login(username, password):
     return token is not None
 
 
-# st.title("Voter CRM Admin Portal")
-# st.write(authentication_token)
 
-# value = cookie_manager.get("token")
-# st.write(value)
 
-# response = cookie_manager.get("response")
-# st.write(response)
-
-# if True:
-#     response = api.is_logged_in()
-#     st.write(response)
 if api.is_logged_in():
     # st.subheader("Welcome")
     # st.write("______________")
@@ -57,35 +47,27 @@ if api.is_logged_in():
             menu_title="Main Menu",
             options=["States","Districts","Constituencies","Parites"]
         )
-
-    tab1, tab2, tab3, tab4 = st.tabs(["View states", "Add State", "Edit State","Delete State"])
-
-    with tab1:
-        DisplayStates(api.get_states)
-
-    with tab2:
-        AddState(api.add_state)
-
-    with tab3:
-        st.header("Edit State")
-
-    with tab4:
-        st.header("Delete State")    
     
+###############################################################
+#
+#   S T A T E S
+#
+###############################################################
+    if selected == "States":
+        tab1, tab2, tab3, tab4 = st.tabs(["View states", "Add State", "Edit State","Delete State"])
 
-    
-    # Display sub menu for states
-    
+        with tab1:
+            DisplayStates(api.get_states)
 
-    # if selected == "States":
-    #     with st.sidebar:
-    #         selected2 = option_menu(
-    #             menu_title="Sub Menu",
-    #             options=["View States","Add State", "Edit State", "Delete State"],
-    #             default_index=0,
-    #         )
+        with tab2:
+            AddState(api.add_state)
 
-        # DisplayStates(api.get_states)
+        with tab3:
+            st.header("Edit State")
+
+        with tab4:
+            st.header("Delete State")    
+
 
 
         

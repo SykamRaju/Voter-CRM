@@ -14,11 +14,10 @@ class API:
         self.base_url=base_url
         self.base_headers={"token":token}
 
-    def add_state(self,state_name,country):
+    def add_state(self,state_name):
         try:
             states={
-                "state_name":state_name,
-                "country":country
+                "state_name":state_name,                
             }
             response=requests.post(self.base_url+api_path_state,json=states,headers=self.base_headers)
             if response.status_code==200:

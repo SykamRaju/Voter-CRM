@@ -38,7 +38,6 @@ def add_state():
     state = States(
         uuid.uuid4(),
         body['state_name'],
-        body['country']
     )
     db.session.add(state)
     db.session.commit()
