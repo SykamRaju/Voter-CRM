@@ -45,11 +45,11 @@ if api.is_logged_in():
     # st.write("___________")
     # DisplayStates(api.get_states)
 
-    with st.sidebar:
-        selected = option_menu(
-            menu_title="Actions",
-            options=["Log out"]
-        )
+    # with st.sidebar:
+    #     selected = option_menu(
+    #         menu_title="Actions",
+    #         options=["Log out"]
+    #     )
 
 
     with st.sidebar:
@@ -58,9 +58,39 @@ if api.is_logged_in():
             options=["States","Districts","Constituencies","Parites"]
         )
 
+    tab1, tab2, tab3, tab4 = st.tabs(["View states", "Add State", "Edit State","Delete State"])
 
-    if selected == "States":
+    with tab1:
         DisplayStates(api.get_states)
+
+    with tab2:
+        AddState(api.add_state)
+
+    with tab3:
+        st.header("Edit State")
+
+    with tab4:
+        st.header("Delete State")    
+    
+
+    
+    # Display sub menu for states
+    
+
+    # if selected == "States":
+    #     with st.sidebar:
+    #         selected2 = option_menu(
+    #             menu_title="Sub Menu",
+    #             options=["View States","Add State", "Edit State", "Delete State"],
+    #             default_index=0,
+    #         )
+
+        # DisplayStates(api.get_states)
+
+
+        
+
+
     # if selected == "Districts":
     #     DisplayStates(api.get_districts)        
     # if selected == "Constituencies":
