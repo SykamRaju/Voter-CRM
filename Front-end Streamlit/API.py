@@ -67,6 +67,9 @@ class API:
             return response.json()['states']
         except:
             return None
+    
+    
+    # Districts 
 
     def get_districts(self):
         try:
@@ -75,34 +78,34 @@ class API:
         except:
             return None
         
-    def add_district(self,state_name):
+    def add_district(self,district_name):
         try:
             states={
-                "state_name":state_name,                
+                "district_name":district_name,                
             }
-            response=requests.post(self.base_url+api_path_add_state,json=states,headers=self.base_headers)
+            response=requests.post(self.base_url+api_path_add_district,json=states,headers=self.base_headers)
             if response.status_code==200:
                 return True
         except:
             return False
 
-    def edit_district(self,state_name):
+    def edit_district(self,district_name):
         try:
             states={
-                "state_name":state_name,                
+                "district_name":district_name,                
             }
-            response=requests.post(self.base_url+api_path_update_state,json=states,headers=self.base_headers)
+            response=requests.post(self.base_url+api_path_update_district,json=states,headers=self.base_headers)
             if response.status_code==200:
                 return True
         except:
             return False
 
-    def delete_district(self,state_name):
+    def delete_district(self,district_name):
         try:
             states={
-                "state_name":state_name,                
+                "district_name":district_name,                
             }
-            response=requests.post(self.base_url+api_path_delete_state,json=states,headers=self.base_headers)
+            response=requests.post(self.base_url+api_path_delete_district,json=states,headers=self.base_headers)
             if response.status_code==200:
                 return True
         except:

@@ -7,7 +7,7 @@ from Views.DeleteState import DeleteState
 
 from Views.AddDistrict import AddDistrict
 from Views.DisplayDistricts import DisplayDistricts
-from Views.EditDistrict import EditDistrict
+from Views import EditDistrict
 from Views.DeleteDistrict import DeleteDistrict
 
 
