@@ -1,8 +1,16 @@
 import streamlit as st
+
 from Views.AddState import AddState
 from Views.DisplayStates import DisplayStates
 from Views.EditState import EditState
 from Views.DeleteState import DeleteState
+
+from Views.AddDistrict import AddDistrict
+from Views.DisplayDistricts import DisplayDistricts
+from Views.EditDistrict import EditDistrict
+from Views.DeleteDistrict import DeleteDistrict
+
+
 from Views.Login import Login
 from API import API
 import extra_streamlit_components as stx
@@ -31,11 +39,6 @@ def manage_login(username, password):
 
 
 if api.is_logged_in():
-    # st.subheader("Welcome")
-    # st.write("______________")
-    # AddState(api.add_state)
-    # st.write("___________")
-    # DisplayStates(api.get_states)
 
     # with st.sidebar:
     #     selected = option_menu(
@@ -74,6 +77,30 @@ if api.is_logged_in():
             # Delete State
             DeleteState(api.get_states,api.delete_state)    
 
+    
+###############################################################
+#
+#   D I S T R I C T S
+#
+###############################################################
+    if selected == "Districts":
+        tab1, tab2, tab3, tab4 = st.tabs(["View Districts", "Add District", "Edit District","Delete District"])
+
+        with tab1:
+            # List Districts
+            DisplayDistricts(api.get_districts)
+
+        with tab2:
+            # Add a District
+            AddDistrict(api.add_district)
+
+        with tab3:
+            # Edit District
+            EditDistrict(api.get_districts,api.edit_district)
+
+        with tab4:
+            # Delete District
+            DeleteDistrict(api.get_districts,api.delete_district)    
 
 
         
