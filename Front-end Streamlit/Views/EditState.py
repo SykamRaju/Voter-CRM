@@ -3,7 +3,6 @@ from typing import Callable
 
 
 class EditState:
-    # def __init__(self, on_submit: Callable[[str, str], bool]):
     def __init__(self, get_states: Callable[[str], bool], on_submit2: Callable[[str], bool]):
         st.header("Edit State")
         states=get_states()

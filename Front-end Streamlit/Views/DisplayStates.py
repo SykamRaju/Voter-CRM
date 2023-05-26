@@ -7,13 +7,6 @@ from API import API
 
 class DisplayStates:
     def __init__(self,get_states:Callable[[],list]):
-
-        # selected2 = option_menu(None, ["View States","Add State", "Edit State", "Delete State"], 
-        
-        # menu_icon="cast", default_index=0, orientation="horizontal")
-        # selected2
-
-        
         st.header("List of States")
         states=get_states()
         if states is None:
