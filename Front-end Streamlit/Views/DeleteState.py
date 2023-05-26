@@ -3,16 +3,16 @@ from typing import Callable
 
 
 class DeleteState:
-    def __init__(self, on_submit: Callable[[str, str], bool]):
+    def __init__(self, get_states: Callable[[str], bool], delete: Callable[[str], bool]):
         st.header("Delete State")
-
+        states=get_states()
+        state_names = [state["state_name"] for state in states]
         form = st.form("delete_state")
-        state_name = form.text_input("State name")
-        # country = form.text_input("Country")
+        selected_state = form.selectbox("Select a state", state_names)
 
-        if form.form_submit_button("Add New State"):
-            success = on_submit(state_name)
+        if form.form_submit_button("Delete State"):
+            success = delete(selected_state)
             if success:
-                st.success("State Added Successfully")
+                st.success("State deleted Successfully")
             else:
-                st.error("Error adding state")
+                st.error("Error deleting state")

@@ -56,7 +56,7 @@ if api.is_logged_in():
 #
 ###############################################################
     if selected == "States":
-        tab1, tab2, tab3, tab4 = st.tabs(["View states", "Add State", "Edit State","Delete State"])
+        tab1, tab2, tab3, tab4 = st.tabs(["View States", "Add State", "Edit State","Delete State"])
 
         with tab1:
             # List States
@@ -68,11 +68,11 @@ if api.is_logged_in():
 
         with tab3:
             # Edit State
-            EditState(api.edit_state)
+            EditState(api.get_states,api.edit_state)
 
         with tab4:
             # Delete State
-            DeleteState(api.delete_state)    
+            DeleteState(api.get_states,api.delete_state)    
 
 
 

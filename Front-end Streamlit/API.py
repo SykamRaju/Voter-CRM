@@ -8,6 +8,9 @@ api_path_is_logged_in = config['api_url']['is_logged_in']
 
 api_path_state = config['api_url']['state']
 api_path_states = config['api_url']['states']
+api_path_update_state = config['api_url']['update_state']
+api_path_delete_state = config['api_url']['delete_state']
+
 
 class API:
     def __init__(self, base_url:str,token:str):
@@ -30,7 +33,7 @@ class API:
             states={
                 "state_name":state_name,                
             }
-            response=requests.post(self.base_url+api_path_state,json=states,headers=self.base_headers)
+            response=requests.post(self.base_url+api_path_update_state,json=states,headers=self.base_headers)
             if response.status_code==200:
                 return True
         except:
@@ -41,7 +44,7 @@ class API:
             states={
                 "state_name":state_name,                
             }
-            response=requests.post(self.base_url+api_path_state,json=states,headers=self.base_headers)
+            response=requests.post(self.base_url+api_path_delete_state,json=states,headers=self.base_headers)
             if response.status_code==200:
                 return True
         except:

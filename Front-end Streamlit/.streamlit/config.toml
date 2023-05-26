@@ -10,7 +10,8 @@ auth_login = "/auth/login"
 is_logged_in = "/auth/is_logged_in"
 state = "/state"
 states = "/states"
-
+update_state = "admin/update_state"
+delete_state = "admin/delete_state"
 
 [theme]
 primaryColor="#1b4332"
