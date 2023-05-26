@@ -10,6 +10,12 @@ from Views.DisplayDistricts import DisplayDistricts
 from Views import EditDistrict
 from Views.DeleteDistrict import DeleteDistrict
 
+from Views.AddConstituency import AddConstituency
+from Views.DisplayConstituencies import DisplayConstituencies
+from Views import EditConstituency
+from Views.DeleteConstituency import DeleteConstituency
+
+
 
 from Views.Login import Login
 from API import API
@@ -102,6 +108,30 @@ if api.is_logged_in():
             # Delete District
             DeleteDistrict(api.get_districts,api.delete_district)    
 
+    
+###############################################################
+#
+#   C O N S T I T U E N C I E S
+#
+###############################################################
+    if selected == "Constituencies":
+        tab1, tab2, tab3, tab4 = st.tabs(["View Constituencies", "Add Constituency", "Edit Constituency","Delete Constituency"])
+
+        with tab1:
+            # List Constituencies
+            DisplayConstituencies(api.get_constituencies)
+
+        with tab2:
+            # Add a Constituency
+            AddConstituency(api.get_districts,api.add_constituency)
+
+        with tab3:
+            # Edit Constituency
+            EditConstituency(api.get_constituencies,api.edit_constituency)
+
+        with tab4:
+            # Delete Constituency
+            DeleteConstituency(api.get_constituencies,api.delete_constituency)    
 
         
 

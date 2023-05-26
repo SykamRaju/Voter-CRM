@@ -111,7 +111,51 @@ class API:
                 return True
         except:
             return False
+
+    # Constituencies 
+
+    def get_constituencies(self):
+        try:
+            response=requests.get(self.base_url+api_path_list_constituencies,headers=self.base_headers)
+            return response.json()['constituencies']
+        except:
+            return None
         
+    def add_constituency(self,district_name,constituency_name):
+        try:
+            states={
+                "district_name":district_name,
+                "districtconstituency_name_name":constituency_name,                
+            }
+            response=requests.post(self.base_url+api_path_add_constituency,json=states,headers=self.base_headers)
+            if response.status_code==200:
+                return True
+        except:
+            return False
+
+    def edit_constituency(self,constituency_name):
+        try:
+            states={
+                "constituency_name":constituency_name,                
+            }
+            response=requests.post(self.base_url+api_path_update_constituency,json=states,headers=self.base_headers)
+            if response.status_code==200:
+                return True
+        except:
+            return False
+
+    def delete_constituency(self,constituency_name):
+        try:
+            states={
+                "constituency_name":constituency_name,                
+            }
+            response=requests.post(self.base_url+api_path_delete_constituency,json=states,headers=self.base_headers)
+            if response.status_code==200:
+                return True
+        except:
+            return False
+
+
 
     def login(self,username,password):
         try:
