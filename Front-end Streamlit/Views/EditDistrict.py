@@ -13,7 +13,7 @@ class EditDistrict:
         district_name = form.text_input("New name for the District")
 
         if form.form_submit_button("Update State"):
-            success = on_submit2(district_name)
+            success = on_submit2(selected_district,district_name)
             if success:
                 st.success("District Updated Successfully")
             else:
