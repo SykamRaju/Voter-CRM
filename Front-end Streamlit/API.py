@@ -25,6 +25,29 @@ class API:
         except:
             return False
 
+    def edit_state(self,state_name):
+        try:
+            states={
+                "state_name":state_name,                
+            }
+            response=requests.post(self.base_url+api_path_state,json=states,headers=self.base_headers)
+            if response.status_code==200:
+                return True
+        except:
+            return False
+
+    def delete_state(self,state_name):
+        try:
+            states={
+                "state_name":state_name,                
+            }
+            response=requests.post(self.base_url+api_path_state,json=states,headers=self.base_headers)
+            if response.status_code==200:
+                return True
+        except:
+            return False
+                    
+
     def get_states(self):
         try:
             response=requests.get(self.base_url+api_path_states,headers=self.base_headers)

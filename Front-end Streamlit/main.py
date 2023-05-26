@@ -1,6 +1,8 @@
 import streamlit as st
 from Views.AddState import AddState
 from Views.DisplayStates import DisplayStates
+from Views.EditState import EditState
+from Views.DeleteState import DeleteState
 from Views.Login import Login
 from API import API
 import extra_streamlit_components as stx
@@ -57,16 +59,20 @@ if api.is_logged_in():
         tab1, tab2, tab3, tab4 = st.tabs(["View states", "Add State", "Edit State","Delete State"])
 
         with tab1:
+            # List States
             DisplayStates(api.get_states)
 
         with tab2:
+            # Add a State
             AddState(api.add_state)
 
         with tab3:
-            st.header("Edit State")
+            # Edit State
+            EditState(api.edit_state)
 
         with tab4:
-            st.header("Delete State")    
+            # Delete State
+            DeleteState(api.delete_state)    
 
 
 
