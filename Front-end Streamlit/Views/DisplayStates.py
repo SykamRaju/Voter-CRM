@@ -1,5 +1,6 @@
 import streamlit as st
 from typing import Callable
+import pandas as pd 
 
 class DisplayStates:
     def __init__(self,get_states:Callable[[],list]):
@@ -9,3 +10,4 @@ class DisplayStates:
             st.error("error getting states")
         else:
             st.table(states)
+            
