@@ -11,6 +11,16 @@ api_path_list_states = config['api_url']['list_states']
 api_path_update_state = config['api_url']['update_state']
 api_path_delete_state = config['api_url']['delete_state']
 
+api_path_add_district = config['api_url']['add_district']
+api_path_list_districts = config['api_url']['list_districts']
+api_path_update_district = config['api_url']['update_district']
+api_path_delete_district = config['api_url']['delete_district']
+
+api_path_add_constituency = config['api_url']['add_constituency']
+api_path_list_constituencies = config['api_url']['list_constituencies']
+api_path_update_constituency = config['api_url']['update_constituency']
+api_path_delete_constituency = config['api_url']['delete_constituency']
+
 
 class API:
     def __init__(self, base_url:str,token:str):

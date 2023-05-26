@@ -14,6 +14,17 @@ add_state = "/state"
 update_state = "/admin/update_state"
 delete_state = "/admin/delete_state"
 
+list_districts = "/admin/districts_list"
+add_district = "/admin/add_district"
+update_district = "/admin/update_district"
+delete_district = "/admin/delete_district"
+
+list_constituencies = "/admin/assemblyconstituency"
+add_constituency = "/admin/add_constituency"
+update_constituency = "/admin/update_constituency"
+delete_constituency = "/admin/delete_constituency"
+
+
 [theme]
 primaryColor="#1b4332"
 backgroundColor="#fff"
