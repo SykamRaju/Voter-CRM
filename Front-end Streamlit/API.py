@@ -78,9 +78,10 @@ class API:
         except:
             return None
         
-    def add_district(self,district_name):
+    def add_district(self,state_name,district_name):
         try:
             states={
+                "state_name":state_name,
                 "district_name":district_name,                
             }
             response=requests.post(self.base_url+api_path_add_district,json=states,headers=self.base_headers)

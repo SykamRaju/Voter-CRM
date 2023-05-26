@@ -9,7 +9,7 @@ api_base_url = "http://127.0.0.1:8000/api"
 auth_login = "/auth/login"
 is_logged_in = "/auth/is_logged_in"
 
-list_states = "/admin/states"
+list_states = "/states"
 add_state = "/state"
 update_state = "/admin/update_state"
 delete_state = "/admin/delete_state"

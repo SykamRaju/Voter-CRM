@@ -92,7 +92,7 @@ if api.is_logged_in():
 
         with tab2:
             # Add a District
-            AddDistrict(api.add_district)
+            AddDistrict(api.get_states,api.add_district)
 
         with tab3:
             # Edit District
