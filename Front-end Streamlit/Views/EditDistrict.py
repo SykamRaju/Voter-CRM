@@ -3,19 +3,18 @@ from typing import Callable
 
 
 class EditDistrict:
-    def __init__(self, get_states: Callable[[str], bool], on_submit2: Callable[[str], bool]):
+    def __init__(self, get_distrits: Callable[[str], bool], on_submit2: Callable[[str], bool]):
         st.header("Edit District")
-        states=get_states()
+        districts=get_distrits()
         # st.write(states)
-        state_names = [state["state_name"] for state in states]
+        district_names = [district["district_name"] for district in districts]
         form = st.form("edit_state")
-        selected_state = form.selectbox("Select a state", state_names)
-        state_name = form.text_input("New name for the State")
-        # country = form.text_input("Country")
+        selected_district = form.selectbox("Select a District", district_names)
+        district_name = form.text_input("New name for the District")
 
         if form.form_submit_button("Update State"):
-            success = on_submit2(state_name)
+            success = on_submit2(district_name)
             if success:
-                st.success("State Updated Successfully")
+                st.success("District Updated Successfully")
             else:
-                st.error("Error updating state")
+                st.error("Error updating District")
