@@ -8,4 +8,4 @@ Voter CRM - Front End(Streamlit)
 
 
 ## To run project
-`streamlit run Login.py`
+`streamlit run main.py`
