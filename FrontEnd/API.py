@@ -6,6 +6,8 @@ config = toml.load(".streamlit/config.toml")
 api_path_auth_login = config['api_url']['auth_login']
 api_path_is_logged_in = config['api_url']['is_logged_in']
 
+api_path_auth_signup = config['api_url']['auth_signup']
+
 api_path_add_state = config['api_url']['add_state']
 api_path_list_states = config['api_url']['list_states']
 api_path_update_state = config['api_url']['update_state']
@@ -20,7 +22,6 @@ api_path_add_constituency = config['api_url']['add_constituency']
 api_path_list_constituencies = config['api_url']['list_constituencies']
 api_path_update_constituency = config['api_url']['update_constituency']
 api_path_delete_constituency = config['api_url']['delete_constituency']
-
 
 class API:
     def __init__(self, base_url:str,token:str):
@@ -160,8 +161,6 @@ class API:
         except:
             return False
 
-
-
     def login(self,username,password):
         try:
             credentials={
@@ -179,5 +178,18 @@ class API:
 
     def is_logged_in(self):
         response=requests.get(self.base_url+api_path_is_logged_in,headers=self.base_headers)
-        return response.status_code==200
+        return response.status_code == 200
     
+    def signup(self,sign_username,sign_password):
+        try:
+            credentials={
+                "username": sign_username,
+                "password": sign_password
+            }
+            response=requests.post(self.base_url+api_path_auth_signup,json=credentials)
+            body=response.json()
+            token=body.get("token") if type(body)==dict else None
+
+            return token
+        except:
+            return None   
