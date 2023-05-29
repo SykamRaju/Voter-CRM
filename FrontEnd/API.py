@@ -25,12 +25,17 @@ api_path_delete_constituency = config['api_url']['delete_constituency']
 class API:
     def __init__(self, base_url:str,token:str):
         self.base_url=base_url
-        self.base_headers={"token":token}
+        self.base_headers={
+            "Content-Type":"application/json",
+            "token":token,
+            "signupkey":"signupkey",
+        }
 
-    def add_state(self,state_name):
+    def add_state(self,state_name,state_number):
         try:
             states={
-                "state_name":state_name,                
+                "State_Name":state_name,
+                "State_No":state_number
             }
             response=requests.post(self.base_url+api_path_add_state,json=states,headers=self.base_headers)
             if response.status_code==200:
@@ -41,7 +46,7 @@ class API:
     def edit_state(self,state_name):
         try:
             states={
-                "state_name":state_name,                
+                "State_Name":state_name
             }
             response=requests.post(self.base_url+api_path_update_state,json=states,headers=self.base_headers)
             if response.status_code==200:
@@ -52,7 +57,7 @@ class API:
     def delete_state(self,state_name):
         try:
             states={
-                "state_name":state_name,                
+                "State_Name":state_name
             }
             response=requests.post(self.base_url+api_path_delete_state,json=states,headers=self.base_headers)
             if response.status_code==200:
@@ -81,7 +86,7 @@ class API:
     def add_district(self,state_name,district_name):
         try:
             states={
-                "state_name":state_name,
+                "State_Name":state_name,
                 "district_name":district_name,                
             }
             response=requests.post(self.base_url+api_path_add_district,json=states,headers=self.base_headers)
@@ -160,10 +165,11 @@ class API:
     def login(self,username,password):
         try:
             credentials={
-                "username":username,
-                "password":password
+                "Username":username,
+                "Password":password
             }
-            response=requests.post(self.base_url+api_path_auth_login,json=credentials)
+
+            response=requests.put(self.base_url+api_path_auth_login,json=credentials,headers=self.base_headers)
             body=response.json()
             token=body.get("token") if type(body)==dict else None
 
@@ -172,6 +178,6 @@ class API:
             return None
 
     def is_logged_in(self):
-        response=requests.post(self.base_url+api_path_is_logged_in,headers=self.base_headers)
+        response=requests.get(self.base_url+api_path_is_logged_in,headers=self.base_headers)
         return response.status_code==200
     

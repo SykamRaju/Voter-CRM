@@ -23,10 +23,12 @@ import extra_streamlit_components as stx
 import json
 from streamlit_option_menu import option_menu
 import toml
+import os
 
 config = toml.load(".streamlit/config.toml")
-api_base_url = config['api_url']['api_base_url']
-
+api_base_url = "http://{}:8000/admin".format(
+    os.getenv('SERVER_URL','127.0.0.1')
+)
 
 cookie_manager = stx.CookieManager()
 cookies = cookie_manager.get_all()
