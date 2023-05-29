@@ -19,7 +19,7 @@ docker-compose up -d Note:
 This will start three services. backend, frontend and db. frontend connect backend which connects to MySQL DB for data storing and retrieving.
 
 
-## How to contribute to backend code and deliver with Docker
+## How to contribute to FrontEnd code and deliver with Docker
 Fork the repo https://github.com/SykamRaju/Voter-CRM.git
 Note: Forking is different than cloning. Check online tutors for more details.
 
