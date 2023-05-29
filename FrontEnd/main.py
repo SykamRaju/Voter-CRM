@@ -7,20 +7,17 @@ from Views.DeleteState import DeleteState
 
 from Views.AddDistrict import AddDistrict
 from Views.DisplayDistricts import DisplayDistricts
-from Views import EditDistrict
+from Views.EditDistrict import EditDistrict
 from Views.DeleteDistrict import DeleteDistrict
 
 from Views.AddConstituency import AddConstituency
 from Views.DisplayConstituencies import DisplayConstituencies
-from Views import EditConstituency
+from Views.EditConstituency import EditConstituency
 from Views.DeleteConstituency import DeleteConstituency
-
-
 
 from Views.Login import Login
 from API import API
 import extra_streamlit_components as stx
-import json
 from streamlit_option_menu import option_menu
 import toml
 
@@ -41,8 +38,10 @@ def manage_login(username, password):
     cookie_manager.set("token", token)
     return token is not None
 
-
-
+def manage_signup(username, password):
+    token = api.signup(username, password)
+    cookie_manager.set("token", token)
+    return token is not None
 
 if api.is_logged_in():
 
@@ -133,9 +132,6 @@ if api.is_logged_in():
             # Delete Constituency
             DeleteConstituency(api.get_constituencies,api.delete_constituency)    
 
-        
-
-
     # if selected == "Districts":
     #     DisplayStates(api.get_districts)        
     # if selected == "Constituencies":
@@ -143,4 +139,4 @@ if api.is_logged_in():
 
 
 else:
-    Login(manage_login)
+    Login(manage_login, manage_signup)
