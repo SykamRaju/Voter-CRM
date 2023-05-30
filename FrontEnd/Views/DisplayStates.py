@@ -10,7 +10,7 @@ class DisplayStates:
         st.header("List of States")
         states=get_states()
         if states is None:
-            st.error("error getting states")
+            st.error("States Record is empty!")
         else:
             st.table(states)
 

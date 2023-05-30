@@ -18,4 +18,4 @@ class AddState:
             if success:
                 st.success("State Added Successfully")
             else:
-                st.error("Error adding state")
+                st.error("Error adding state!")
