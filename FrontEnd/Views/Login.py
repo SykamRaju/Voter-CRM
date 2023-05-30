@@ -2,7 +2,7 @@ import streamlit as st
 from typing import Callable
 
 class Login:
-    def __init__(self,on_signup: Callable[[str,str],bool], on_login:Callable[[str,str],bool]):
+    def __init__(self,on_login:Callable[[str,str],bool],on_signup: Callable[[str,str],bool]):
         st.title("VoterCRM")
         options= ['Login', 'Sign Up']
         st.write('<style>div.row-widget.stRadio > div{flex-direction:row; justify-content: space-around;}</style>', unsafe_allow_html=True)
