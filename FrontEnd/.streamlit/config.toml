@@ -5,25 +5,26 @@ debug = true
 
 [api_url]
 
-api_base_url = "http://127.0.0.1:8000/api"
+# Docker need to load dynamic server url. No need to hardcode here.
+#api_base_url = "http://127.0.0.1:8000/admin"
 auth_login = "/auth/login"
 is_logged_in = "/auth/is_logged_in"
 auth_signup = "/auth/signup"
 
 list_states = "/states"
-add_state = "/state"
-update_state = "/admin/update_state"
-delete_state = "/admin/delete_state"
+add_state = "/add_state"
+update_state = "/update_state"
+delete_state = "/delete_state"
 
-list_districts = "/admin/districts_list"
-add_district = "/admin/add_district"
-update_district = "/admin/update_district"
-delete_district = "/admin/delete_district"
+list_districts = "/districts_list"
+add_district = "/add_district"
+update_district = "/update_district"
+delete_district = "/delete_district"
 
-list_constituencies = "/admin/assemblyconstituency"
-add_constituency = "/admin/add_constituency"
-update_constituency = "/admin/update_constituency"
-delete_constituency = "/admin/delete_constituency"
+list_constituencies = "/assemblyconstituency"
+add_constituency = "/add_constituency"
+update_constituency = "/update_constituency"
+delete_constituency = "/delete_constituency"
 
 
 [theme]

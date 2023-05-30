@@ -1,0 +1,51 @@
+version: "3"
+services:
+    db:
+        image: mysql:5.7
+        restart: always
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_ROOT_PASSWORD : admin
+        volumes:
+            - './scripts/DatabaseCreation.sql:/docker-entrypoint-initdb.d/init.sql'
+            - 'votercrmdb:/var/lib/mysql'
+        healthcheck:
+            test: mysqladmin ping -h 127.0.0.1  --password=$$MYSQL_ROOT_PASSWORD
+            interval: 10s
+            timeout: 10s
+            retries: 3
+    backend:
+        image: sanbud/votercrm_backend:latest
+        depends_on:
+            db:
+                condition: service_healthy
+        links:
+            - "db"
+        environment:
+            DB_USER : "root"
+            DB_PASSWORD : "admin"
+            DB_HOST : "db"
+            DB_NAME : "voter_crm"
+        ports:
+            - "8000:8000"
+        # uncomment out below code to do local development.
+        # steps: Run 'docker compose up -d', make changes -> run again 'docker compose up -d'
+        # volumes:
+        #     - './BackEnd:/app/BackEnd'
+    fromtend:
+        image: sanbud/votercrm_frontend:latest
+        ports:
+            - "8501:8501"
+        depends_on:
+            - backend
+        environment:
+            SERVER_URL: "backend"
+        # uncomment out below volumes to do local development.
+        # steps: Run 'docker compose up -d', make changes -> run again 'docker compose up -d'
+        # volumes:
+        #     - './FrontEnd:/app/FrontEnd'
+        #     - './FrontEnd/.streamlit:/app/.streamlit'
+            
+volumes:
+    votercrmdb:

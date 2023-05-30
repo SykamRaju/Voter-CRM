@@ -1,6 +1,8 @@
+altair
 pandas
 streamlit
 extra_streamlit_components
 streamlit_option_menu
 pillow
 streamlit-extras
+requests

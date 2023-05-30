@@ -7,7 +7,7 @@ class EditState:
         st.header("Edit State")
         states=get_states()
         # st.write(states)
-        state_names = [state["state_name"] for state in states]
+        state_names = [state["State_Name"] for state in states]
         form = st.form("edit_state")
         selected_state = form.selectbox("Select a state", state_names)
         state_name = form.text_input("New name for the State")

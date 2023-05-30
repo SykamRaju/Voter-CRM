@@ -1,5 +1,6 @@
 import streamlit as st
 from typing import Callable
+import random
 
 
 class AddState:
@@ -11,7 +12,9 @@ class AddState:
         # country = form.text_input("Country")
 
         if form.form_submit_button("Add New State"):
-            success = on_submit(state_name)
+            # Adding some logic but FE team can decide
+            state_number = random.randint(0, 36)
+            success = on_submit(state_name,state_number)
             if success:
                 st.success("State Added Successfully")
             else:
