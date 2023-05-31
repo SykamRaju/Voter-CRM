@@ -10,7 +10,7 @@ class DisplayDistricts:
         st.header("List of Districts")
         districts=get_districts()
         if districts is None:
-            st.error("error getting districts")
+            st.error("Districts Record is empty!")
         else:
             st.table(districts)
 

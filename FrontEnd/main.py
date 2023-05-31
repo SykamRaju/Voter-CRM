@@ -34,32 +34,46 @@ authentication_token = cookies.get("token") if type(cookies) == dict else cookie
 
 api = API(api_base_url, authentication_token)
 
-
 def manage_login(username, password):
     token = api.login(username, password)
     cookie_manager.set("token", token)
     return token is not None
 
-def manage_signup(username, password):
-    token = api.signup(username, password)
+def manage_signup(signup_details):
+    token = api.signup(signup_details)
     cookie_manager.set("token", token)
     return token is not None
 
+def manage_logout():
+    if api.logout(cookie_manager.get("token")):
+        st.success("Logging out!")
+        Login(manage_login, manage_signup)
+    else:
+        st.error("An error occurred during logout!")
+
 if api.is_logged_in():
-
-    # with st.sidebar:
-    #     selected = option_menu(
-    #         menu_title="Actions",
-    #         options=["Log out"]
-    #     )
-
 
     with st.sidebar:
         selected = option_menu(
             menu_title="Main Menu",
-            options=["States","Districts","Constituencies","Parites"]
+            options=["States","Districts","Constituencies","Political Parties"]
         )
-    
+
+    with st.sidebar:
+        action = option_menu(
+            menu_title="Actions",
+            options=["Log Out", "Change Password"],
+            default_index= -1
+        )
+
+###############################################################
+#
+#   L O G O U T
+#
+###############################################################
+    if action == "Log Out":
+        api.logout(manage_logout)
+
 ###############################################################
 #
 #   S T A T E S

@@ -9,7 +9,10 @@ debug = true
 #api_base_url = "http://127.0.0.1:8000/admin"
 auth_login = "/auth/login"
 is_logged_in = "/auth/is_logged_in"
+
 auth_signup = "/auth/signup"
+
+auth_logout = "/auth/logout"
 
 list_states = "/states"
 add_state = "/add_state"

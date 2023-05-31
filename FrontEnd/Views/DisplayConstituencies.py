@@ -10,7 +10,7 @@ class DisplayConstituencies:
         st.header("List of Constituencies")
         constituencies=get_constituencies()
         if constituencies is None:
-            st.error("Error getting Constituencies")
+            st.error("Constituencies Record is empty! Please add a constituency first.")
         else:
             st.table(constituencies)
 
