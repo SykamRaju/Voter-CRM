@@ -27,8 +27,7 @@ class Login:
         with col1:
             st.button("Login", on_click=self.LogIn_Clicked)
         with col3:
-            st.button("Forgot Password",
-                      on_click=self.Fetch_Password(self.username))
+            st.button("Forgot Pasword", on_click=self.Fetch_Password)
 
     def Display_Signup(self, on_signup: Callable[[object], bool]):
         self.on_signup = on_signup
@@ -83,5 +82,5 @@ class Login:
             st.error("Sign up Failed! Please try again.")
             st.stop()
 
-    def Fetch_Password(self, _username):
-        st.warning("Please contact the System administrator to reset your password.")
+    def Fetch_Password(self):
+        st.error("Please contact the System administrator to reset your password.")
