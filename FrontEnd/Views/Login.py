@@ -1,10 +1,14 @@
 import streamlit as st
 from typing import Callable
-
+from PIL import Image
 
 class Login:
     def __init__(self, on_login: Callable[[str, str], bool], on_signup: Callable[[object], bool]):
-        st.title("VoterCRM")
+        col1, col2 = st.columns([0.5, 0.5])
+        with col1:
+            st.image(Image.open('assets/voterCRM.png'), width=125)
+        with col2:
+            st.title("VoterCRM")
         options = ['Login', 'Sign Up']
         st.write(
             '<style>div.row-widget.stRadio > div{flex-direction:row; justify-content: space-around;}</style>', unsafe_allow_html=True)
@@ -27,8 +31,7 @@ class Login:
         with col1:
             st.button("Login", on_click=self.LogIn_Clicked)
         with col3:
-            st.button("Forgot Password",
-                      on_click=self.Fetch_Password(self.username))
+            st.button("Forgot Pasword", on_click=self.Fetch_Password)
 
     def Display_Signup(self, on_signup: Callable[[object], bool]):
         self.on_signup = on_signup
@@ -56,14 +59,12 @@ class Login:
         success = self.on_login(self.username, self.password)
         if success:
             st.success("Login Successful!")
-            st.stop()
         else:
             st.error("Incorrect Username and password combination. Please try again!")
 
     def SignUp_Clicked(self):
         if self.sign_password != self.sign_confirm_password:
             st.error("Passwords do not match! Please Re-enter the Passwords.")
-            st.stop
         self.signup_details = {
             'First_name': self.sign_fname,
             'Last_name': self.sign_lname,
@@ -78,10 +79,9 @@ class Login:
         success = self.on_signup(self.signup_details)
         if success:
             st.success("Sign up Successful!")
-            st.stop()
         else:
             st.error("Sign up Failed! Please try again.")
-            st.stop()
 
-    def Fetch_Password(self, _username):
-        st.warning("Please contact the System administrator to reset your password.")
+    def Fetch_Password(self):
+        st.error("Please contact the System administrator to reset your password.")
+        st.stop()

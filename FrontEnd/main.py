@@ -27,6 +27,14 @@ api_base_url = "http://{}:8000/admin".format(
     os.getenv('SERVER_URL','127.0.0.1')
 )
 
+st.markdown("""
+        <style>
+               .main .block-container {
+                    margin-top: -4rem;
+                }
+        </style>
+        """, unsafe_allow_html=True)
+
 cookie_manager = stx.CookieManager()
 cookies = cookie_manager.get_all()
 authentication_token = cookies.get("token") if type(cookies) == dict else cookies
@@ -56,14 +64,17 @@ if api.is_logged_in():
     with st.sidebar:
         selected = option_menu(
             menu_title="Main Menu",
-            options=["States","Districts","Constituencies","Political Parties"]
+            options=["States","Districts","Constituencies","Political Parties"],
+            icons=['patch-check', 'patch-check', 'patch-check', 'patch-check'],
+            menu_icon="app-indicator"
         )
 
     with st.sidebar:
         action = option_menu(
             menu_title="Actions",
-            options=["Log Out", "Change Password"],
-            default_index= -1
+            options=["Admin", "Change Password", "Log Out"],
+            icons=['person-check-fill', 'shuffle', 'box-arrow-left'],
+            menu_icon="person-circle",
         )
 
 ###############################################################
