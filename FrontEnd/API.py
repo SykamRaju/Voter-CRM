@@ -170,6 +170,9 @@ class API:
                 "Password":password
             }
 
+            print("Called login with: ")
+            print(credentials)
+
             response=requests.put(self.base_url+api_path_auth_login,json=credentials,headers=self.base_headers)
             body=response.json()
             token=body.get("token") if type(body)==dict else None
@@ -183,11 +186,14 @@ class API:
         return response.status_code==200
     
     def signup(self, signup_details):
+
+        print("Called Sign up with: ")
+        print(signup_details)
+        
         try:
-            response=requests.post(self.base_url+api_path_auth_signup,json=signup_details)
+            response=requests.post(self.base_url+api_path_auth_signup,json=signup_details, headers=self.base_headers)
             body=response.json()
             token=body.get("token") if type(body)==dict else None
-
             return token
         except:
             return None
