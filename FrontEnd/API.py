@@ -184,7 +184,7 @@ class API:
     
     def signup(self, signup_details):
         try:
-            response=requests.post(self.base_url+api_path_auth_signup,json=signup_details)
+            response=requests.post(self.base_url+api_path_auth_signup,json=signup_details,headers=self.base_headers)
             body=response.json()
             token=body.get("token") if type(body)==dict else None
 
