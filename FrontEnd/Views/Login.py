@@ -4,7 +4,7 @@ from PIL import Image
 
 class Login:
     def __init__(self, on_login: Callable[[str, str], bool], on_signup: Callable[[object], bool]):
-        col1, col2 = st.columns([0.5, 0.5])
+        col1, col2, _col3 = st.columns([0.4, 0.4, 0.2])
         with col1:
             st.image(Image.open('assets/voterCRM.png'), width=125)
         with col2:
@@ -57,9 +57,7 @@ class Login:
 
     def LogIn_Clicked(self):
         success = self.on_login(self.username, self.password)
-        if success:
-            st.success("Login Successful!")
-        else:
+        if not success:
             st.error("Incorrect Username and password combination. Please try again!")
 
     def SignUp_Clicked(self):
@@ -71,15 +69,13 @@ class Login:
             'Username': self.sign_username,
             'Password': self.sign_password,
             'Email_Id': self.sign_mail,
-            'IsAdmin': False,
+            'IsAdmin': True,
             'Gender': self.sign_gender,
             'Phone_No': self.sign_phone,
             'Address': self.sign_address
         }
         success = self.on_signup(self.signup_details)
-        if success:
-            st.success("Sign up Successful!")
-        else:
+        if not success:
             st.error("Sign up Failed! Please try again.")
 
     def Fetch_Password(self):
