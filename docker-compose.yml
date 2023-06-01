@@ -45,7 +45,6 @@ services:
         # steps: Run 'docker compose up -d', make changes -> run again 'docker compose up -d'
         # volumes:
         #     - './FrontEnd:/app/FrontEnd'
-        #     - './FrontEnd/.streamlit:/app/.streamlit'
             
 volumes:
     votercrmdb:
