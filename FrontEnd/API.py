@@ -186,12 +186,11 @@ class API:
         try:
             response=requests.post(self.base_url+api_path_auth_signup,json=signup_details,headers=self.base_headers)
             body=response.json()
-            token=body.get("token") if type(body)==dict else None
-
-            return token
+            message=body.get("message") if type(body)==dict else None
+            return message == "Admin Created Successfully" and response.status_code==200
         except:
             return None
 
-    def logout(self, token):
-        response = requests.post(self.base_url+api_path_auth_logout, headers=token) 
+    def logout(self):
+        response = requests.get(self.base_url+api_path_auth_logout, headers=self.base_headers) 
         return response.status_code==200

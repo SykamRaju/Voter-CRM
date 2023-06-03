@@ -48,16 +48,7 @@ def manage_login(username, password):
     return token is not None
 
 def manage_signup(signup_details):
-    token = api.signup(signup_details)
-    cookie_manager.set("token", token)
-    return token is not None
-
-def manage_logout():
-    if api.logout(cookie_manager.get("token")):
-        st.success("Logging out!")
-        Login(manage_login, manage_signup)
-    else:
-        st.error("An error occurred during logout!")
+    return api.signup(signup_details)
 
 if api.is_logged_in():
 
@@ -83,7 +74,12 @@ if api.is_logged_in():
 #
 ###############################################################
     if action == "Log Out":
-        api.logout(manage_logout)
+        if api.logout():
+            st.success("Logging out!")
+            st.session_state.runpage = Login(manage_login, manage_signup)
+            st.experimental_rerun()
+        else:
+            st.error("An error occurred during logout!")
 
 ###############################################################
 #
