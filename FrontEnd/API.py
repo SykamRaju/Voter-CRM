@@ -10,6 +10,8 @@ api_path_auth_logout = config['api_url']['auth_logout']
 
 api_path_auth_signup = config['api_url']['auth_signup']
 
+api_path_auth_changepassword = config['api_url']['auth_changepassword']
+
 api_path_add_state = config['api_url']['add_state']
 api_path_list_states = config['api_url']['list_states']
 api_path_update_state = config['api_url']['update_state']
@@ -188,6 +190,15 @@ class API:
             body=response.json()
             message=body.get("message") if type(body)==dict else None
             return message == "Admin Created Successfully" and response.status_code==200
+        except:
+            return None
+        
+    def change_password(self, psswrd_details):
+        try:
+            response=requests.post(self.base_url+api_path_auth_changepassword,json=psswrd_details,headers=self.base_headers)
+            body=response.json()
+            message=body.get("message") if type(body)==dict else None
+            return message == "Password changed successfully" and response.status_code==200
         except:
             return None
 
