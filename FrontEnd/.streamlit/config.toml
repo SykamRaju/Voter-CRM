@@ -12,6 +12,8 @@ is_logged_in = "/auth/is_logged_in"
 
 auth_signup = "/auth/signup"
 
+auth_changepassword = "/auth/changepassword"
+
 auth_logout = "/auth/logout"
 
 list_states = "/states"

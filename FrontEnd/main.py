@@ -1,4 +1,9 @@
 import streamlit as st
+from API import API
+import extra_streamlit_components as stx
+from streamlit_option_menu import option_menu
+import toml
+import os
 
 from Views.AddState import AddState
 from Views.DisplayStates import DisplayStates
@@ -15,12 +20,8 @@ from Views.DisplayConstituencies import DisplayConstituencies
 from Views.EditConstituency import EditConstituency
 from Views.DeleteConstituency import DeleteConstituency
 
+from Views.ChangePassword import ChangePassword
 from Views.Login import Login
-from API import API
-import extra_streamlit_components as stx
-from streamlit_option_menu import option_menu
-import toml
-import os
 
 config = toml.load(".streamlit/config.toml")
 api_base_url = "http://{}:8000/admin".format(
@@ -49,6 +50,9 @@ def manage_login(username, password):
 
 def manage_signup(signup_details):
     return api.signup(signup_details)
+
+def manage_changepassword(password_details):
+    return api.change_password(password_details)
 
 if api.is_logged_in():
 
@@ -80,6 +84,16 @@ if api.is_logged_in():
             st.experimental_rerun()
         else:
             st.error("An error occurred during logout!")
+
+###############################################################
+#
+#   C H A N G E  P A S S W O R D
+#
+###############################################################
+
+    if action == "Change Password":
+        selected = None
+        ChangePassword(manage_changepassword)
 
 ###############################################################
 #
