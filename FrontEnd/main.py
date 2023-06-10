@@ -24,7 +24,7 @@ from Views.ChangePassword import ChangePassword
 from Views.Login import Login
 
 config = toml.load(".streamlit/config.toml")
-api_base_url = "http://{}:8000/admin".format(
+api_base_url = "http://{}:8000/".format(
     os.getenv('SERVER_URL', '127.0.0.1')
 )
 
@@ -47,8 +47,8 @@ authentication_token = cookies.get(
 api = API(api_base_url, authentication_token)
 
 
-def manage_login(username, password):
-    token = api.login(username, password)
+def manage_login(login_details):
+    token = api.login(login_details)
     cookie_manager.set("token", token)
     return token is not None
 
@@ -74,9 +74,9 @@ if api.is_logged_in():
                 styles={
                     "container": {"padding": "5px !important", "background-color": "#fafafa"},
                     "icon": {"font-size": "24px"},
-                    "nav-link": {"font-size": "16px", "text-align": "left", "margin": "0px", "--hover-color": "rgba(255,0,0,0.1)"}
+                    "nav-link": {"font-size": "16px", "text-align": "left", "margin": "0px", "--hover-color": "rgba(128,128,128,0.25)"}
                 }
-            )        
+            )
 
 ###############################################################
 #
@@ -84,7 +84,7 @@ if api.is_logged_in():
 #
 ###############################################################
     if selected == "Log Out":
-        if api.logout():
+        if api.admin_logout():
             st.success("Logging out!")
             st.session_state.runpage = Login(manage_login, manage_signup)
             st.experimental_rerun()
@@ -177,10 +177,42 @@ if api.is_logged_in():
             # Delete Constituency
             DeleteConstituency(api.get_constituencies, api.delete_constituency)
 
-    # if selected == "Districts":
-    #     DisplayStates(api.get_districts)
-    # if selected == "Constituencies":
-    #     DisplayStates(api.get_constituencies)
+elif api.is_agent_logged_in():
+    with st.sidebar:
+        agent_selected = option_menu(
+                menu_title="Main Menu",
+                options=["Upload Voter Details", "Change Password", "Log Out"],
+                icons=['file-arrow-up', 'shuffle', 'box-arrow-left'],
+                menu_icon="app-indicator",
+                styles={
+                    "container": {"padding": "5px !important", "background-color": "#fafafa"},
+                    "icon": {"font-size": "24px"},
+                    "nav-link": {"font-size": "16px", "text-align": "left", "margin": "0px", "--hover-color": "rgba(128,128,128,0.25)"}
+                }
+            )
+
+###############################################################
+#
+#   L O G O U T
+#
+###############################################################
+    if agent_selected == "Log Out":
+        if api.agent_logout():
+            st.success("Logging out!")
+            st.session_state.runpage = Login(manage_login, manage_signup)
+            st.experimental_rerun()
+        else:
+            st.error("An error occurred during logout!")
+
+###############################################################
+#
+#   C H A N G E  P A S S W O R D
+#
+###############################################################
+
+    if agent_selected == "Change Password":
+        ChangePassword(manage_changepassword)
+
 
 
 else:

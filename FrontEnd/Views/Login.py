@@ -3,39 +3,46 @@ from typing import Callable
 from PIL import Image
 
 class Login:
-    def __init__(self, on_login: Callable[[str, str], bool], on_signup: Callable[[object], bool]):
-        col1, col2, _col3 = st.columns([0.35, 0.35, 0.3])
-        with col1:
+    def __init__(self, on_login: Callable[[object], bool], on_signup: Callable[[object], bool]):
+        _col1, _col2, col3, col4, _col5, _col6 = st.columns([0.1, 0.1, 0.2, 0.4, 0.1, 0.1])
+        with col3:
             st.image(Image.open('assets/voterCRM.png'), width=125)
-        with col2:
+        with col4:
             st.title("VoterCRM")
-        options = ['Login', 'Sign Up']
-        st.write(
-            '<style>div.row-widget.stRadio > div{flex-direction:row; justify-content: space-around;}</style>', unsafe_allow_html=True)
-        option = st.radio('options', options, horizontal=True,
-                          label_visibility='hidden')
+        font_css = """
+            <style>
+            button[data-baseweb="tab"] > div[data-testid="stMarkdownContainer"]  > p {
+            min-width: 25vw;
+            }
 
-        if option == 'Login':
+            button[data-baseweb="tab"]:hover {
+            background-color: rgba(128,128,128,0.1)
+            }
+            </style>
+        """
+
+        st.write(font_css, unsafe_allow_html=True)
+        tab1, tab2 = st.tabs(["Login", "Sign Up"])
+      
+        with tab1:
             self.Display_Login(on_login)
-        else:
+        with tab2:
             self.Display_Signup(on_signup)
 
-    def Display_Login(self, on_login: Callable[[str, str], bool]):
+    def Display_Login(self, on_login: Callable[[object], bool]):
         self.on_login = on_login
-        st.header("Login")
-        self.username = st.text_input("Username", key='login_username')
-        self.password = st.text_input(
-            "Password", type="password", key='login_password')
+        self.login_username = st.text_input("Username", key='login_username')
+        self.login_password = st.text_input("Password", type="password", key='login_password')
+        self.login_isadmin = st.checkbox("Log-in as Administrator")
 
-        col1, _col2, col3 = st.columns([0.2, 0.8, 0.27])
+        col1, _col2, col3 = st.columns([0.2, 0.725, 0.25])
         with col1:
             st.button("Login", on_click=self.LogIn_Clicked)
         with col3:
-            st.button("Forgot Pasword", on_click=self.Fetch_Password)
+            st.button("Forgot Password", on_click=self.Fetch_Password)
 
     def Display_Signup(self, on_signup: Callable[[object], bool]):
         self.on_signup = on_signup
-        st.header("Sign Up")
         self.sign_username = st.text_input(
             "Preferred Username", key='sign_username')
         col1, col2 = st.columns([0.5, 0.5])
@@ -52,15 +59,22 @@ class Login:
             "Password", type="password", key='sign_password')
         self.sign_confirm_password = st.text_input(
             "Confirm Password", type="password", key='sign_confirm_password')
+        self.sign_isadmin = st.checkbox("Sign Up as Administrator")
         if st.button("Sign Up"):
             self.SignUp_Clicked()
 
     def LogIn_Clicked(self):
-        success = self.on_login(self.username, self.password)
+        self.login_details = {
+            'Username': self.login_username,
+            'Password': self.login_password,
+            'IsAdmin': self.login_isadmin
+        }
+        success = self.on_login(self.login_details)
         if success:
             st.success("Login Successful!")
         else:
             st.error("Incorrect Username and password combination. Please try again!")
+            
 
     def SignUp_Clicked(self):
         if self.sign_password != self.sign_confirm_password:
@@ -71,7 +85,7 @@ class Login:
             'Username': self.sign_username,
             'Password': self.sign_password,
             'Email_Id': self.sign_mail,
-            'IsAdmin': True,
+            'IsAdmin': self.sign_isadmin,
             'Gender': self.sign_gender,
             'Phone_No': self.sign_phone,
             'Address': self.sign_address

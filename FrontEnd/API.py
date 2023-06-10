@@ -6,11 +6,17 @@ config = toml.load(".streamlit/config.toml")
 api_path_auth_login = config['api_url']['auth_login']
 api_path_is_logged_in = config['api_url']['is_logged_in']
 
+api_path_agent_login = config['api_url']['agent_login']
+api_path_is_agent_logged_in = config['api_url']['agent_is_logged_in']
+
 api_path_auth_logout = config['api_url']['auth_logout']
+api_path_agent_logout = config['api_url']['agent_logout']
 
 api_path_auth_signup = config['api_url']['auth_signup']
+api_path_agent_signup = config['api_url']['agent_signup']
 
 api_path_auth_changepassword = config['api_url']['auth_changepassword']
+api_path_agent_changepassword = config['api_url']['agent_changepassword']
 
 api_path_add_state = config['api_url']['add_state']
 api_path_list_states = config['api_url']['list_states']
@@ -33,7 +39,7 @@ class API:
         self.base_headers={
             "Content-Type":"application/json",
             "token":token,
-            "signupkey":"signupkey",
+            "signupkey":"signupkey"
         }
 
     def add_state(self,state_name,state_number):
@@ -165,14 +171,19 @@ class API:
         except:
             return False
 
-    def login(self,username,password):
+    def login(self,login_details):
         try:
             credentials={
-                "Username":username,
-                "Password":password
+                "Username":login_details["Username"],
+                "Password":login_details["Password"]
             }
 
-            response=requests.put(self.base_url+api_path_auth_login,json=credentials,headers=self.base_headers)
+            if login_details["IsAdmin"] == True:
+                print("Logging in as Admin")
+                response=requests.post(self.base_url+api_path_auth_login,json=credentials,headers=self.base_headers)
+            else:
+                print("Logging in as Agent")
+                response=requests.post(self.base_url+api_path_agent_login,json=credentials,headers=self.base_headers)
             body=response.json()
             token=body.get("token") if type(body)==dict else None
 
@@ -184,12 +195,24 @@ class API:
         response=requests.get(self.base_url+api_path_is_logged_in,headers=self.base_headers)
         return response.status_code==200
     
+    def is_agent_logged_in(self):
+        response=requests.get(self.base_url+api_path_is_agent_logged_in,headers=self.base_headers)
+        return response.status_code==200
+    
     def signup(self, signup_details):
         try:
-            response=requests.post(self.base_url+api_path_auth_signup,json=signup_details,headers=self.base_headers)
-            body=response.json()
-            message=body.get("message") if type(body)==dict else None
-            return message == "Admin Created Successfully" and response.status_code==200
+            if signup_details["IsAdmin"] == True:
+                print("Signing up as Admin")
+                response=requests.post(self.base_url+api_path_auth_signup,json=signup_details,headers=self.base_headers)
+                body=response.json()
+                message=body.get("message") if type(body)==dict else None
+                return message == "Admin Created Successfully" and response.status_code==200
+            else:
+                print("Signing up as Agent")
+                response=requests.post(self.base_url+api_path_agent_signup,json=signup_details,headers=self.base_headers)
+                body=response.json()
+                message=body.get("message") if type(body)==dict else None
+                return message == "Agent Id created Successfully" and response.status_code==200               
         except:
             return None
         
@@ -202,6 +225,10 @@ class API:
         except:
             return None
 
-    def logout(self):
-        response = requests.get(self.base_url+api_path_auth_logout, headers=self.base_headers) 
+    def admin_logout(self):
+        response = requests.post(self.base_url+api_path_auth_logout, headers=self.base_headers)
+        return response.status_code==200
+
+    def agent_logout(self):
+        response = requests.post(self.base_url+api_path_agent_logout, headers=self.base_headers) 
         return response.status_code==200

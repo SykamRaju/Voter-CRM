@@ -24,6 +24,6 @@ class ChangePassword:
     def Change_Password(self, psswrd_details):
         success = self.on_change_password(psswrd_details)
         if success:
-            st.success("Password Changed Successfully!.")
+            st.success("Password Changed Successfully!")
         else:
             st.error("An Error occurred! Please check for password consistency and try again.")
