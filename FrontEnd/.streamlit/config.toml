@@ -6,30 +6,37 @@ debug = true
 [api_url]
 
 # Docker need to load dynamic server url. No need to hardcode here.
-#api_base_url = "http://127.0.0.1:8000/admin"
-auth_login = "/auth/login"
-is_logged_in = "/auth/is_logged_in"
+#api_base_url = "http://127.0.0.1:8000/"
 
-auth_signup = "/auth/signup"
+auth_login = "admin/auth/login"
+is_logged_in = "admin/auth/is_logged_in"
 
-auth_changepassword = "/auth/changepassword"
+agent_login = "agent/login"
+agent_is_logged_in = "agent/is_logged_in"
 
-auth_logout = "/auth/logout"
+auth_signup = "admin/auth/signup"
+agent_signup = "agent/signup"
 
-list_states = "/states"
-add_state = "/add_state"
-update_state = "/update_state"
-delete_state = "/delete_state"
+auth_changepassword = "admin/auth/changepassword"
+agent_changepassword = "agent/changepassword"
 
-list_districts = "/districts_list"
-add_district = "/add_district"
-update_district = "/update_district"
-delete_district = "/delete_district"
+auth_logout = "admin/auth/logout"
+agent_logout = "agent/logout"
 
-list_constituencies = "/assemblyconstituency"
-add_constituency = "/add_constituency"
-update_constituency = "/update_constituency"
-delete_constituency = "/delete_constituency"
+list_states = "admin/states"
+add_state = "admin/add_state"
+update_state = "admin/update_state"
+delete_state = "admin/delete_state"
+
+list_districts = "admin/districts_list"
+add_district = "admin/add_district"
+update_district = "admin/update_district"
+delete_district = "admin/delete_district"
+
+list_constituencies = "admin/assemblyconstituency"
+add_constituency = "admin/add_constituency"
+update_constituency = "admin/update_constituency"
+delete_constituency = "admin/delete_constituency"
 
 
 [theme]
