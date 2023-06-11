@@ -21,6 +21,7 @@ from Views.EditConstituency import EditConstituency
 from Views.DeleteConstituency import DeleteConstituency
 
 from Views.ChangePassword import ChangePassword
+from Views.RegisterAgent import RegisterAgent
 from Views.Login import Login
 
 config = toml.load(".streamlit/config.toml")
@@ -60,6 +61,8 @@ def manage_signup(signup_details):
 def manage_changepassword(password_details):
     return api.change_password(password_details)
 
+def register_agent(agent_details):
+    return api.signup(agent_details)
 
 if api.is_logged_in():
 
@@ -67,9 +70,9 @@ if api.is_logged_in():
         selected = option_menu(
                 menu_title="Main Menu",
                 options=["States", "Districts", "Constituencies",
-                        "Political Parties", "Change Password", "Log Out"],
+                        "Political Parties", "Register Agent", "Change Password", "Log Out"],
                 icons=['patch-check', 'patch-check', 'patch-check',
-                    'patch-check', 'shuffle', 'box-arrow-left'],
+                    'patch-check', 'person-plus', 'shuffle', 'box-arrow-left'],
                 menu_icon="app-indicator",
                 styles={
                     "container": {"padding": "5px !important", "background-color": "#fafafa"},
@@ -176,6 +179,15 @@ if api.is_logged_in():
         with tab4:
             # Delete Constituency
             DeleteConstituency(api.get_constituencies, api.delete_constituency)
+
+###############################################################
+#
+#   R E G I S T E R   A N   A G E N T
+#
+###############################################################
+    if selected == "Register Agent":
+        RegisterAgent(register_agent)
+
 
 elif api.is_agent_logged_in():
     with st.sidebar:

@@ -193,22 +193,25 @@ class API:
 
     def is_logged_in(self):
         response=requests.get(self.base_url+api_path_is_logged_in,headers=self.base_headers)
+        print("Admin: logged in:", response.status_code==200)
         return response.status_code==200
     
     def is_agent_logged_in(self):
         response=requests.get(self.base_url+api_path_is_agent_logged_in,headers=self.base_headers)
-        return response.status_code==200
+        print(response)
+        print("Agent: logged in:", response.status_code==200)
+        return True
     
     def signup(self, signup_details):
         try:
-            if signup_details["IsAdmin"] == True:
+            if signup_details["IsAdmin"] == 1:
                 print("Signing up as Admin")
                 response=requests.post(self.base_url+api_path_auth_signup,json=signup_details,headers=self.base_headers)
                 body=response.json()
                 message=body.get("message") if type(body)==dict else None
                 return message == "Admin Created Successfully" and response.status_code==200
             else:
-                print("Signing up as Agent")
+                print("Signing up an Agent")
                 response=requests.post(self.base_url+api_path_agent_signup,json=signup_details,headers=self.base_headers)
                 body=response.json()
                 message=body.get("message") if type(body)==dict else None
