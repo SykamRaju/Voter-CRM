@@ -59,8 +59,7 @@ class Login:
             "Password", type="password", key='sign_password')
         self.sign_confirm_password = st.text_input(
             "Confirm Password", type="password", key='sign_confirm_password')
-        self.sign_isadmin = st.checkbox("Sign Up as Administrator")
-        if st.button("Sign Up"):
+        if st.button("Sign Up As Administrator"):
             self.SignUp_Clicked()
 
     def LogIn_Clicked(self):
@@ -85,7 +84,7 @@ class Login:
             'Username': self.sign_username,
             'Password': self.sign_password,
             'Email_Id': self.sign_mail,
-            'IsAdmin': self.sign_isadmin,
+            'IsAdmin': 1,
             'Gender': self.sign_gender,
             'Phone_No': self.sign_phone,
             'Address': self.sign_address
