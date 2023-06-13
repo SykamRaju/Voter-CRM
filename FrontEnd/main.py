@@ -226,6 +226,5 @@ elif api.is_agent_logged_in():
         ChangePassword(manage_changepassword)
 
 
-
 else:
     Login(manage_login, manage_signup)

@@ -221,7 +221,10 @@ class API:
         
     def change_password(self, psswrd_details):
         try:
-            response=requests.post(self.base_url+api_path_auth_changepassword,json=psswrd_details,headers=self.base_headers)
+            if self.is_logged_in():
+                response=requests.post(self.base_url+api_path_auth_changepassword,json=psswrd_details,headers=self.base_headers)
+            else:
+                response=requests.post(self.base_url+api_path_agent_changepassword,json=psswrd_details,headers=self.base_headers)
             body=response.json()
             message=body.get("message") if type(body)==dict else None
             return message == "Password changed successfully" and response.status_code==200
