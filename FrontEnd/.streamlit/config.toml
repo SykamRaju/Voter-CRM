@@ -18,7 +18,7 @@ auth_signup = "admin/auth/signup"
 agent_signup = "agent/signup"
 
 auth_changepassword = "admin/auth/changepassword"
-agent_changepassword = "agent/changepassword"
+agent_changepassword = "agent/change_password"
 
 auth_logout = "admin/auth/logout"
 agent_logout = "agent/logout"
