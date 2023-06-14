@@ -194,12 +194,18 @@ class API:
     def is_logged_in(self):
         response=requests.get(self.base_url+api_path_is_logged_in,headers=self.base_headers)
         print("Admin: logged in:", response.status_code==200)
-        return response.status_code==200
+        if response:
+            body=response.json()
+            message=body.get("message") if type(body)==dict else None
+            return message and response.status_code==200
     
     def is_agent_logged_in(self):
         response=requests.get(self.base_url+api_path_is_agent_logged_in,headers=self.base_headers)
         print("Agent: logged in:", response.status_code==200)
-        return response.status_code==200
+        if response:
+            body=response.json()
+            message=body.get("message") if type(body)==dict else None
+            return message and response.status_code==200
     
     def signup(self, signup_details):
         try:
