@@ -198,9 +198,8 @@ class API:
     
     def is_agent_logged_in(self):
         response=requests.get(self.base_url+api_path_is_agent_logged_in,headers=self.base_headers)
-        print(response)
         print("Agent: logged in:", response.status_code==200)
-        return True
+        return response.status_code==200
     
     def signup(self, signup_details):
         try:
