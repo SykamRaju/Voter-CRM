@@ -38,6 +38,7 @@ add_constituency = "admin/add_constituency"
 update_constituency = "admin/update_constituency"
 delete_constituency = "admin/delete_constituency"
 
+list_voters = "admin/list_voters"
 
 [theme]
 primaryColor="#1b4332"
