@@ -1,9 +1,5 @@
 import streamlit as st
 from typing import Callable
-import pandas as pd 
-from streamlit_option_menu import option_menu
-from Views.AddDistrict import AddDistrict
-from API import API
 
 class DisplayDistricts:
     def __init__(self,get_districts:Callable[[],list]):
@@ -13,9 +9,3 @@ class DisplayDistricts:
             st.error("Districts Record is empty!")
         else:
             st.table(districts)
-
-
-        
-
-        
-            
