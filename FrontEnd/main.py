@@ -24,6 +24,8 @@ from Views.ChangePassword import ChangePassword
 from Views.RegisterAgent import RegisterAgent
 from Views.Login import Login
 
+from Views.VotersList import DisplayVoters
+
 config = toml.load(".streamlit/config.toml")
 api_base_url = "http://{}:8000/".format(
     os.getenv('SERVER_URL', '127.0.0.1')
@@ -61,31 +63,34 @@ def manage_signup(signup_details):
 def manage_changepassword(password_details):
     return api.change_password(password_details)
 
+
 def register_agent(agent_details):
     return api.signup(agent_details)
+
 
 if api.is_logged_in():
 
     with st.sidebar:
         selected = option_menu(
-                menu_title="Main Menu",
-                options=["States", "Districts", "Constituencies",
-                        "Political Parties", "Register Agent", "Change Password", "Log Out"],
-                icons=['patch-check', 'patch-check', 'patch-check',
-                    'patch-check', 'person-plus', 'shuffle', 'box-arrow-left'],
-                menu_icon="app-indicator",
-                styles={
-                    "container": {"padding": "5px !important", "background-color": "#fafafa"},
-                    "icon": {"font-size": "24px"},
-                    "nav-link": {"font-size": "16px", "text-align": "left", "margin": "0px", "--hover-color": "rgba(128,128,128,0.25)"}
-                }
-            )
+            menu_title="Main Menu",
+            options=["States", "Districts", "Constituencies",
+                     "Political Parties", "Display Voters List", "Register Agent", "Change Password", "Log Out"],
+            icons=['patch-check', 'patch-check', 'patch-check', 'patch-check',
+                   'patch-check', 'person-plus', 'shuffle', 'box-arrow-left'],
+            menu_icon="app-indicator",
+            styles={
+                "container": {"padding": "5px !important", "background-color": "#fafafa"},
+                "icon": {"font-size": "24px"},
+                "nav-link": {"font-size": "16px", "text-align": "left", "margin": "0px",
+                             "--hover-color": "rgba(128,128,128,0.25)"}
+            }
+        )
 
-###############################################################
-#
-#   L O G O U T
-#
-###############################################################
+    ###############################################################
+    #
+    #   L O G O U T
+    #
+    ###############################################################
     if selected == "Log Out":
         if api.admin_logout():
             st.success("Logging out!")
@@ -94,20 +99,20 @@ if api.is_logged_in():
         else:
             st.error("An error occurred during logout!")
 
-###############################################################
-#
-#   C H A N G E  P A S S W O R D
-#
-###############################################################
+    ###############################################################
+    #
+    #   C H A N G E  P A S S W O R D
+    #
+    ###############################################################
 
     if selected == "Change Password":
         ChangePassword(manage_changepassword)
 
-###############################################################
-#
-#   S T A T E S
-#
-###############################################################
+    ###############################################################
+    #
+    #   S T A T E S
+    #
+    ###############################################################
     if selected == "States":
         tab1, tab2, tab3, tab4 = st.tabs(
             ["View States", "Add State", "Edit State", "Delete State"])
@@ -128,12 +133,11 @@ if api.is_logged_in():
             # Delete State
             DeleteState(api.get_states, api.delete_state)
 
-
-###############################################################
-#
-#   D I S T R I C T S
-#
-###############################################################
+    ###############################################################
+    #
+    #   D I S T R I C T S
+    #
+    ###############################################################
     if selected == "Districts":
         tab1, tab2, tab3, tab4 = st.tabs(
             ["View Districts", "Add District", "Edit District", "Delete District"])
@@ -154,12 +158,11 @@ if api.is_logged_in():
             # Delete District
             DeleteDistrict(api.get_districts, api.delete_district)
 
-
-###############################################################
-#
-#   C O N S T I T U E N C I E S
-#
-###############################################################
+    ###############################################################
+    #
+    #   C O N S T I T U E N C I E S
+    #
+    ###############################################################
     if selected == "Constituencies":
         tab1, tab2, tab3, tab4 = st.tabs(
             ["View Constituencies", "Add Constituency", "Edit Constituency", "Delete Constituency"])
@@ -180,11 +183,19 @@ if api.is_logged_in():
             # Delete Constituency
             DeleteConstituency(api.get_constituencies, api.delete_constituency)
 
-###############################################################
-#
-#   R E G I S T E R   A N   A G E N T
-#
-###############################################################
+    ###############################################################
+    #
+    #   D I S P L A Y   V O T E R S   L I S T
+    #
+    ###############################################################
+    if selected == "Display Voters List":
+        DisplayVoters(api.get_voters)
+
+    ###############################################################
+    #
+    #   R E G I S T E R   A N   A G E N T
+    #
+    ###############################################################
     if selected == "Register Agent":
         RegisterAgent(register_agent)
 
@@ -192,22 +203,23 @@ if api.is_logged_in():
 elif api.is_agent_logged_in():
     with st.sidebar:
         agent_selected = option_menu(
-                menu_title="Main Menu",
-                options=["Upload Voter Details", "Change Password", "Log Out"],
-                icons=['file-arrow-up', 'shuffle', 'box-arrow-left'],
-                menu_icon="app-indicator",
-                styles={
-                    "container": {"padding": "5px !important", "background-color": "#fafafa"},
-                    "icon": {"font-size": "24px"},
-                    "nav-link": {"font-size": "16px", "text-align": "left", "margin": "0px", "--hover-color": "rgba(128,128,128,0.25)"}
-                }
-            )
+            menu_title="Main Menu",
+            options=["Upload Voter Details", "Display Voters List", "Change Password", "Log Out"],
+            icons=['file-arrow-up', 'patch-check', 'shuffle', 'box-arrow-left'],
+            menu_icon="app-indicator",
+            styles={
+                "container": {"padding": "5px !important", "background-color": "#fafafa"},
+                "icon": {"font-size": "24px"},
+                "nav-link": {"font-size": "16px", "text-align": "left", "margin": "0px",
+                             "--hover-color": "rgba(128,128,128,0.25)"}
+            }
+        )
 
-###############################################################
-#
-#   L O G O U T
-#
-###############################################################
+    ###############################################################
+    #
+    #   L O G O U T
+    #
+    ###############################################################
     if agent_selected == "Log Out":
         if api.agent_logout():
             st.success("Logging out!")
@@ -216,15 +228,22 @@ elif api.is_agent_logged_in():
         else:
             st.error("An error occurred during logout!")
 
-###############################################################
-#
-#   C H A N G E  P A S S W O R D
-#
-###############################################################
+    ###############################################################
+    #
+    #   C H A N G E  P A S S W O R D
+    #
+    ###############################################################
 
     if agent_selected == "Change Password":
         ChangePassword(manage_changepassword)
 
+    ###############################################################
+    #
+    #   D I S P L A Y  V O T E R S  L I S T
+    #
+    ###############################################################
+    if agent_selected == "Display Voters List":
+        DisplayVoters(api.get_voters)
 
 else:
     Login(manage_login, manage_signup)
