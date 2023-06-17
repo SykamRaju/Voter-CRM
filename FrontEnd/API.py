@@ -35,6 +35,9 @@ api_path_delete_constituency = config['api_url']['delete_constituency']
 
 api_path_list_voters = config['api_url']['list_voters']
 
+api_path_list_parties = config['api_url']['list_parties']
+api_path_add_party = config['api_url']['add_party']
+api_path_delete_party = config['api_url']['delete_party']
 
 class API:
     def __init__(self, base_url: str, token: str):
@@ -45,7 +48,9 @@ class API:
             "signupkey": "signupkey"
         }
 
-    def add_state(self, state_name, state_number):
+    # States 
+
+    def add_state(self,state_name,state_number):
         try:
             states = {
                 "State_Name": state_name,
@@ -174,6 +179,36 @@ class API:
         except:
             return False
 
+    # Parties 
+
+    def add_party(self,party_details):
+        try:
+            response=requests.post(self.base_url+api_path_add_party,json=party_details,headers=self.base_headers)
+            if response.status_code==200:
+                return True
+        except:
+            return False
+        
+
+    def delete_party(self,party_name):
+        try:
+            party={
+                "Party_Name":party_name
+            }
+            response=requests.post(self.base_url+api_path_delete_party,json=party,headers=self.base_headers)
+            if response.status_code==200:
+                return True
+        except:
+            return False
+                    
+
+    def get_parties(self):
+        try:
+            response=requests.get(self.base_url+api_path_list_parties,headers=self.base_headers)
+            return response.json()['Political Parties']
+        except:
+            return None
+        
     def login(self, login_details):
         try:
             credentials = {

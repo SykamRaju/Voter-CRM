@@ -20,6 +20,10 @@ from Views.DisplayConstituencies import DisplayConstituencies
 from Views.EditConstituency import EditConstituency
 from Views.DeleteConstituency import DeleteConstituency
 
+from Views.DisplayParties import DisplayParties
+from Views.AddParty import AddParty
+from Views.DeleteParty import DeleteParty
+
 from Views.ChangePassword import ChangePassword
 from Views.RegisterAgent import RegisterAgent
 from Views.Login import Login
@@ -79,7 +83,7 @@ if api.is_logged_in():
                    'patch-check', 'person-plus', 'shuffle', 'box-arrow-left'],
             menu_icon="app-indicator",
             styles={
-                "container": {"padding": "5px !important", "background-color": "#fafafa"},
+                "container": {"padding": "5px !important"},
                 "icon": {"font-size": "24px"},
                 "nav-link": {"font-size": "16px", "text-align": "left", "margin": "0px",
                              "--hover-color": "rgba(128,128,128,0.25)"}
@@ -199,6 +203,27 @@ if api.is_logged_in():
     if selected == "Register Agent":
         RegisterAgent(register_agent)
 
+    ###############################################################
+    #
+    #   P O L I T I C A L  P A R T I E S
+    #
+    ###############################################################
+    if selected == "Political Parties":
+        tab1, tab2, tab3 = st.tabs(
+            ["View Political Parties", "Add Political Party", "Delete Political Party"])
+
+        with tab1:
+            # List Political Parties
+            DisplayParties(api.get_parties)
+
+        with tab2:
+            # Add a Political Party
+            AddParty(api.add_party)
+
+        with tab3:
+            # Delete a Political Party
+            DeleteParty(api.get_parties, api.delete_party)
+
 
 elif api.is_agent_logged_in():
     with st.sidebar:
@@ -208,7 +233,7 @@ elif api.is_agent_logged_in():
             icons=['file-arrow-up', 'patch-check', 'shuffle', 'box-arrow-left'],
             menu_icon="app-indicator",
             styles={
-                "container": {"padding": "5px !important", "background-color": "#fafafa"},
+                "container": {"padding": "5px !important"},
                 "icon": {"font-size": "24px"},
                 "nav-link": {"font-size": "16px", "text-align": "left", "margin": "0px",
                              "--hover-color": "rgba(128,128,128,0.25)"}

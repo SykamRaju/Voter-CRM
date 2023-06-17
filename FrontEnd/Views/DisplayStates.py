@@ -1,9 +1,5 @@
 import streamlit as st
 from typing import Callable
-import pandas as pd 
-from streamlit_option_menu import option_menu
-from Views.AddState import AddState
-from API import API
 
 class DisplayStates:
     def __init__(self,get_states:Callable[[],list]):
@@ -12,10 +8,4 @@ class DisplayStates:
         if states is None:
             st.error("States Record is empty!")
         else:
-            st.table(states)
-
-
-        
-
-        
-            
+            st.table(states)      
