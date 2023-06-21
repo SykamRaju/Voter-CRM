@@ -97,7 +97,17 @@ class API:
 
     def get_districts(self):
         try:
-            response = requests.get(self.base_url + api_path_list_districts, headers=self.base_headers)
+            response = requests.get(self.base_url + api_path_list_districts,headers=self.base_headers)
+            return response.json()['districts']
+        except:
+            return None
+        
+    def get_districts_for_given_state(self,state_no):
+        try:
+            state = {
+                "State_Code": state_no
+            }
+            response = requests.post(self.base_url + api_path_list_districts,json=state, headers=self.base_headers)
             return response.json()['districts']
         except:
             return None

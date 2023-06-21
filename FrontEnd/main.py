@@ -148,7 +148,7 @@ if api.is_logged_in():
 
         with tab1:
             # List Districts
-            DisplayDistricts(api.get_districts)
+            DisplayDistricts(api.get_states,api.get_districts_for_given_state)
 
         with tab2:
             # Add a District
