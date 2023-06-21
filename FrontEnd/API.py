@@ -125,14 +125,16 @@ class API:
         except:
             return False
 
-    def edit_district(self, district_name):
+    def edit_district(self, Existing_District_Name,Update_District_Name,Update_District_No):
         try:
-            states = {
-                "district_name": district_name,
+            data = {
+                "Existing_District_Name": Existing_District_Name,
+                "Update_District_Name": Update_District_Name,
+                "Update_District_No": Update_District_No,
             }
-            response = requests.post(self.base_url + api_path_update_district, json=states, headers=self.base_headers)
+            response = requests.post(self.base_url + api_path_update_district, json=data, headers=self.base_headers)
             if response.status_code == 200:
-                return True
+                return response.json()['message']
         except:
             return False
 

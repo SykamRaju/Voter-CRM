@@ -156,7 +156,7 @@ if api.is_logged_in():
 
         with tab3:
             # Edit District
-            EditDistrict(api.get_districts, api.edit_district)
+            EditDistrict(api.get_states,api.get_districts_for_given_state, api.edit_district)
 
         with tab4:
             # Delete District
