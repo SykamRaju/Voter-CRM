@@ -62,10 +62,12 @@ class API:
         except:
             return False
 
-    def edit_state(self, state_name):
+    def edit_state(self, Existing_State_Name,Update_State_Name,Update_State_No):
         try:
             states = {
-                "State_Name": state_name
+                "Existing_State_Name": Existing_State_Name,
+                "Update_State_Name": Update_State_Name,
+                "Update_State_No": Update_State_No
             }
             response = requests.post(self.base_url + api_path_update_state, json=states, headers=self.base_headers)
             if response.status_code == 200:
