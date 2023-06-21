@@ -112,11 +112,12 @@ class API:
         except:
             return None
 
-    def add_district(self, state_name, district_name):
+    def add_district(self, District_Name, District_No,State_Code):
         try:
             states = {
-                "State_Name": state_name,
-                "district_name": district_name,
+                "District_Name": District_Name,
+                "District_No":District_No,
+                "State_Code":State_Code
             }
             response = requests.post(self.base_url + api_path_add_district, json=states, headers=self.base_headers)
             if response.status_code == 200:
