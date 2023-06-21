@@ -160,7 +160,7 @@ if api.is_logged_in():
 
         with tab4:
             # Delete District
-            DeleteDistrict(api.get_districts, api.delete_district)
+            DeleteDistrict(api.get_states,api.get_districts_for_given_state, api.delete_district)
 
     ###############################################################
     #

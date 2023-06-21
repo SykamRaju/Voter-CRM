@@ -138,14 +138,14 @@ class API:
         except:
             return False
 
-    def delete_district(self, district_name):
+    def delete_district(self, District_Name):
         try:
-            states = {
-                "district_name": district_name,
+            data = {
+                "District_Name": District_Name,
             }
-            response = requests.post(self.base_url + api_path_delete_district, json=states, headers=self.base_headers)
+            response = requests.post(self.base_url + api_path_delete_district, json=data, headers=self.base_headers)
             if response.status_code == 200:
-                return True
+                return response.json()['message']
         except:
             return False
 
