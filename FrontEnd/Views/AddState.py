@@ -9,12 +9,11 @@ class AddState:
 
         form = st.form("new_state")
         state_name = form.text_input("State name")
+        State_No = form.text_input("State Number")
         # country = form.text_input("Country")
 
         if form.form_submit_button("Add New State"):
-            # Adding some logic but FE team can decide
-            state_number = random.randint(0, 36)
-            success = on_submit(state_name,state_number)
+            success = on_submit(state_name,State_No)
             if success:
                 st.success("State Added Successfully")
             else:
