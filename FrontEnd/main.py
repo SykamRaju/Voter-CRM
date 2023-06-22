@@ -189,8 +189,8 @@ if api.is_logged_in():
 
         with tab4:
             # Delete Constituency
-            st.write('tab 4')
             # DeleteConstituency(api.get_constituencies_for_given_district, api.delete_constituency)
+            DeleteConstituency(api.get_states,api.get_districts_for_given_state,api.get_constituencies_for_given_district, api.delete_constituency)
 
     ###############################################################
     #

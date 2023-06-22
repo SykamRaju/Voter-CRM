@@ -186,15 +186,15 @@ class API:
         except:
             return False
 
-    def delete_constituency(self, constituency_name):
+    def delete_constituency(self, Constituency_Id):
         try:
-            states = {
-                "constituency_name": constituency_name,
+            data = {
+                "Constituency_Id": Constituency_Id,
             }
-            response = requests.post(self.base_url + api_path_delete_constituency, json=states,
+            response = requests.delete(self.base_url + api_path_delete_constituency, json=data,
                                      headers=self.base_headers)
             if response.status_code == 200:
-                return True
+                return response.text
         except:
             return False
 
