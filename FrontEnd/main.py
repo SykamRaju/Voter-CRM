@@ -173,19 +173,25 @@ if api.is_logged_in():
 
         with tab1:
             # List Constituencies
-            DisplayConstituencies(api.get_constituencies)
+            # DisplayConstituencies(api.get_constituencies)
+            DisplayConstituencies(api.get_states,api.get_districts_for_given_state,api.get_constituencies_for_given_district)
+            
+
 
         with tab2:
             # Add a Constituency
-            AddConstituency(api.get_districts, api.add_constituency)
+            st.write('tab2')
+            # AddConstituency(api.get_districts, api.add_constituency)
 
         with tab3:
             # Edit Constituency
-            EditConstituency(api.get_constituencies, api.edit_constituency)
+            st.write('tab 3')
+            # EditConstituency(api.get_constituencies_for_given_district, api.edit_constituency)
 
         with tab4:
             # Delete Constituency
-            DeleteConstituency(api.get_constituencies, api.delete_constituency)
+            st.write('tab 4')
+            # DeleteConstituency(api.get_constituencies_for_given_district, api.delete_constituency)
 
     ###############################################################
     #

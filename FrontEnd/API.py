@@ -151,10 +151,13 @@ class API:
 
     # Constituencies 
 
-    def get_constituencies(self):
+    def get_constituencies_for_given_district(self,District_Name):
         try:
-            response = requests.get(self.base_url + api_path_list_constituencies, headers=self.base_headers)
-            return response.json()['constituencies']
+            data = {
+                "District_Name": District_Name,
+            }
+            response = requests.post(self.base_url + api_path_list_constituencies,json=data, headers=self.base_headers)
+            return response.json()['constituency']
         except:
             return None
 
