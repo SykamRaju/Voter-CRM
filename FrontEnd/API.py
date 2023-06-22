@@ -194,7 +194,7 @@ class API:
             response = requests.delete(self.base_url + api_path_delete_constituency, json=data,
                                      headers=self.base_headers)
             if response.status_code == 200:
-                return response.text
+                return response.json()['message']
         except:
             return False
 
