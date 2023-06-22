@@ -1,23 +1,112 @@
 import streamlit as st
 from typing import Callable
+import pandas as pd 
+from streamlit_option_menu import option_menu
+from Views.AddConstituency import AddConstituency
+from API import API
+
+
 
 
 class EditConstituency:
-    def __init__(self, get_distrits: Callable[[str], bool], on_submit2: Callable[[str], bool]):
-        st.header("Edit District")
-        districts=get_distrits()
-        # st.write(states)
-        if districts is not None:
-            district_names = [district["district_name"] for district in districts]
-            form = st.form("edit_state")
-            selected_district = form.selectbox("Select a District", district_names)
-            district_name = form.text_input("New name for the District")
 
-            if form.form_submit_button("Update State"):
-                success = on_submit2(selected_district,district_name)
-                if success:
-                    st.success("District Updated Successfully")
-                else:
-                    st.error("Error updating District")
+    def get_districts(self,states,selected_option,get_districts_for_given_state,district_place):
+        # Code to be executed when the select box value changes
+        state_details = {state["State_Name"]: {key: value for key, value in state.items() if key != "State_Name"} for state in states}
+        # st.write(state_details)
+        # st.write("Selected option:", selected_option)
+        State_Code = state_details[selected_option]['State_Id']
+        districts = get_districts_for_given_state(State_Code)
+
+        if districts is not None:
+            district_names = [district["District_Name"] for district in districts if district is not None]
         else:
-            st.error("Constituency Record is empty!")
+            district_names = []
+
+        # district_place.write(districts)
+        selected_district  = district_place.selectbox("Select a District", district_names,key="edit_con_1")
+        # st.write(districts)
+        # st.table(data)
+
+        return selected_district,district_names,districts
+
+
+    def get_constituencies(self,selected_option,
+                           get_constituencies_for_given_district,
+                           constituency_place,
+                           constituency_place_2):
+        constituencies = get_constituencies_for_given_district(selected_option)
+        # st.table(data)
+
+        if constituencies is not None:
+            constituencies_names = [constituency["Constituency_Name"] for constituency in constituencies if constituency is not None]
+        else:
+            constituencies_names = []
+        
+        selected_constituency = constituency_place.selectbox("Select a Constituency", constituencies_names,key="edit_con_11")
+        # constituency_place.write(constituencies_names)
+        # constituency_place_2.write(get_constituencies_for_given_district)
+        # constituency_place.write(get_constituencies_for_given_district)
+        # constituency_place.table(data)
+        return constituencies,constituencies_names,selected_constituency
+
+    def __init__(self,get_states: Callable[[str], bool],get_districts_for_given_state: Callable[[str], bool],get_constituencies_for_given_district: Callable[[str], bool],edit_constituency: Callable[[str], bool]):
+        
+        st.header("Edit Constituency")
+
+        states=get_states()
+        state_details = {state["State_Name"]: {key: value for key, value in state.items() if key != "State_Name"} for state in states}
+
+        # st.write(state_details)
+        if states is not None:
+            state_names = [state["State_Name"] for state in states]
+            # form = st.form("edit_district")
+            Existing_State_Name = st.selectbox("Select a state", state_names,key="update_con_2")
+
+            district_place = st.empty()    
+
+            constituency_place = st.empty()  
+
+            constituency_place_2 = st.empty()
+
+            # Call the function whenever the state box value changes
+            selected_district,district_names,districts = self.get_districts(states,Existing_State_Name,get_districts_for_given_state,district_place)
+
+            # Call the function whenever the district box value changes
+            constituencies,constituencies_names,selected_constituency = self.get_constituencies(selected_district,
+                                                     get_constituencies_for_given_district,
+                                                     constituency_place,
+                                                     constituency_place_2)
+
+            new_Constituency_Name = st.text_input("New name for Constituency")
+            new_Constituency_No = st.text_input("New Constituency Number")
+
+
+            if districts is not None:
+                district_details = {district["District_Name"]: {key: value for key, value in district.items() if key != "District_Name"} for district in districts}
+            else:
+                district_details = []
+
+            if constituencies is not None:
+                constituencies_details = {constituency["Constituency_Name"]: {key: value for key, value in constituency.items() if key != "Constituency_Name"} for constituency in constituencies}
+            else:
+                constituencies_details = []    
+
+            if st.button('Edit Constituency',key="update_con_3"):
+                # st.write("DistrictName: ",selected_district)
+                Constituency_Id = constituencies_details[selected_constituency]['Constituency_Id']
+                Constituency_No = constituencies_details[selected_constituency]['Constituency_No']
+                # st.write("selected_constituency: ",selected_constituency," ",Constituency_Id," ",Constituency_No)
+                # st.write(new_Constituency_Name)
+                # st.write(new_Constituency_No)
+                # st.write(constituencies_details)
+                # st.write(constituencies_names)
+                message = edit_constituency(Constituency_Id,new_Constituency_Name,new_Constituency_No)
+                st.success(message)
+                    
+                
+
+        
+
+        
+            

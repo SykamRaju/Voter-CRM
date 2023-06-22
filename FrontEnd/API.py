@@ -174,15 +174,17 @@ class API:
         except:
             return False
 
-    def edit_constituency(self, constituency_name):
+    def edit_constituency(self, Constituency_Id,Constituency_Name,Constituency_No):
         try:
-            states = {
-                "constituency_name": constituency_name,
+            data = {
+                "Constituency_Id": Constituency_Id,
+                "Constituency_Name": Constituency_Name,
+                "Constituency_No": Constituency_No
             }
-            response = requests.post(self.base_url + api_path_update_constituency, json=states,
+            response = requests.post(self.base_url + api_path_update_constituency, json=data,
                                      headers=self.base_headers)
             if response.status_code == 200:
-                return True
+                return response.json()['message']
         except:
             return False
 
