@@ -180,8 +180,7 @@ if api.is_logged_in():
 
         with tab2:
             # Add a Constituency
-            st.write('tab2')
-            # AddConstituency(api.get_districts, api.add_constituency)
+            AddConstituency(api.get_states,api.get_districts_for_given_state,api.add_constituency)
 
         with tab3:
             # Edit Constituency

@@ -161,15 +161,16 @@ class API:
         except:
             return None
 
-    def add_constituency(self, district_name, constituency_name):
+    def add_constituency(self, Constituency_Name, Constituency_No,District_Code):
         try:
-            states = {
-                "district_name": district_name,
-                "districtconstituency_name_name": constituency_name,
+            data = {
+                "Constituency_Name": Constituency_Name,
+                "Constituency_No": Constituency_No,
+                "District_Code" : District_Code
             }
-            response = requests.post(self.base_url + api_path_add_constituency, json=states, headers=self.base_headers)
+            response = requests.post(self.base_url + api_path_add_constituency, json=data, headers=self.base_headers)
             if response.status_code == 200:
-                return True
+                return response.json()['message']
         except:
             return False
 
