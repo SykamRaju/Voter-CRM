@@ -223,7 +223,7 @@ if api.is_logged_in():
 
         with tab2:
             # Add a Political Party
-            AddParty(api.add_party)
+            AddParty(api.add_party,api.get_states)
 
         with tab3:
             # Delete a Political Party
