@@ -34,6 +34,11 @@ from Views.UploadBooths import UploadBooths
 from Views.ListBooths import ListBooths
 from Views.DownloadBooths import DownloadBooths
 
+from Views.UploadVoters import UploadVoters
+from Views.ListVoters import ListVoters
+from Views.DownloadVoters import DownloadVoters
+
+
 config = toml.load(".streamlit/config.toml")
 api_base_url = "http://{}:8000/".format(
     os.getenv('SERVER_URL', '127.0.0.1')
@@ -233,7 +238,22 @@ if api.is_logged_in():
     #
     ###############################################################
     if selected == "Display Voters List":
-        DisplayVoters(api.get_voters)
+        # DisplayVoters(api.get_voters)
+        tab1, tab2, tab3 = st.tabs(
+            ["Upload Voters", "View Voters", "Download Voters"])
+
+        with tab1:
+            # Upload Voters
+            UploadVoters(api.upload_voters)
+            
+        with tab2:
+            # View Voters
+            ListVoters(api.get_states,api.get_districts_for_given_state,api.get_constituencies_for_given_district, api.list_voters)
+
+        with tab3:
+            # Download Voters
+            DownloadVoters(api.get_states,api.get_districts_for_given_state,api.get_constituencies_for_given_district, api.download_voters)
+
 
     ###############################################################
     #
