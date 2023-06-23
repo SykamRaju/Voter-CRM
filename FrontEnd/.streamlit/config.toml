@@ -46,6 +46,7 @@ delete_party = "/admin/delete_politicalparty"
 
 
 list_polling_booths = "admin/list_pollingstations"
+download_polling_booths = "admin/download_pollingstations"
 
 
 [theme]

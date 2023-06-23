@@ -32,6 +32,7 @@ from Views.VotersList import DisplayVoters
 
 # from Views.UploadBooths import UploadBooths
 from Views.ListBooths import ListBooths
+from Views.DownloadBooths import DownloadBooths
 
 config = toml.load(".streamlit/config.toml")
 api_base_url = "http://{}:8000/".format(
@@ -218,8 +219,7 @@ if api.is_logged_in():
 
         with tab3:
             # Download Polling Booths
-            st.write("Download Booths")
-            # EditConstituency(api.get_states,api.get_districts_for_given_state,api.get_constituencies_for_given_district, api.edit_constituency)
+            DownloadBooths(api.get_states,api.get_districts_for_given_state,api.get_constituencies_for_given_district, api.download_polling_booths)
 
 
     

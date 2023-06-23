@@ -40,6 +40,7 @@ api_path_add_party = config['api_url']['add_party']
 api_path_delete_party = config['api_url']['delete_party']
 
 api_path_list_polling_booths = config['api_url']['list_polling_booths']
+api_path_download_polling_booths = config['api_url']['download_polling_booths']
 
 
 class API:
@@ -251,6 +252,20 @@ class API:
             return response.json()['polling_stations']
         except:
             return None
+
+
+    def download_polling_booths(self,State_Name,District_Name,Constituency_Name):
+        try:
+            data = {
+                "State_Name": State_Name,
+                "District_Name":District_Name,
+                "Constituency_Name":Constituency_Name
+            }
+            response = requests.post(self.base_url + api_path_download_polling_booths,json=data, headers=self.base_headers)
+            return response.text
+        except:
+            return None
+        
 
     def login(self, login_details):
         try:
