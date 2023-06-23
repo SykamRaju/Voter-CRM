@@ -38,15 +38,18 @@ add_constituency = "admin/add_constituency"
 update_constituency = "admin/update_constituency"
 delete_constituency = "admin/delete_constituency"
 
-list_voters = "admin/list_voters"
 
 list_parties = "/admin/politicalparties_list"
 add_party = "/admin/add_politicalparty"
 delete_party = "/admin/delete_politicalparty"
 
-
+upload_polling_booths = "admin/upload_pollingstations"
 list_polling_booths = "admin/list_pollingstations"
 download_polling_booths = "admin/download_pollingstations"
+
+upload_voters = "admin/upload_voters"
+list_voters = "admin/list_voters"
+download_voters = "admin/download_voters"
 
 
 [theme]
