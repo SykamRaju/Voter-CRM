@@ -29,9 +29,11 @@ class UploadBooths:
 
             # try:
             if form.form_submit_button("Upload Voter Details"):
-                # st.write(file_to_upload)
-                file_details = {"file_name":file.name,"file_type":file.type,"file_size":file.size}
-                result = upload_polling_booths(file_to_upload)
-                st.success(result)
+                with st.spinner('Processing the submitted file ...'):
+                    # st.write(file_to_upload)
+                    file_details = {"file_name":file.name,"file_type":file.type,"file_size":file.size}
+                    result = upload_polling_booths(file_to_upload)
+                    st.success(result)
+                
 
 
