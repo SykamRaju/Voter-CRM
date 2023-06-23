@@ -1,1 +1,1 @@
-CREATE DATABASE voter_crm;
+CREATE DATABASE IF NOT EXISTS voter_crm;
