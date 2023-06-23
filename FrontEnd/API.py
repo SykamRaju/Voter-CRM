@@ -39,6 +39,9 @@ api_path_list_parties = config['api_url']['list_parties']
 api_path_add_party = config['api_url']['add_party']
 api_path_delete_party = config['api_url']['delete_party']
 
+api_path_list_polling_booths = config['api_url']['list_polling_booths']
+
+
 class API:
     def __init__(self, base_url: str, token: str):
         self.base_url = base_url
@@ -149,6 +152,7 @@ class API:
         except:
             return False
 
+
     # Constituencies 
 
     def get_constituencies_for_given_district(self,District_Name):
@@ -229,7 +233,25 @@ class API:
             return response.json()['Political Parties']
         except:
             return None
-        
+
+
+    #
+    #  Polling Booths
+    #     
+
+    def list_polling_booths(self,State_Name,District_Name,Constituency_Name):
+        try:
+            data = {
+                "State_Name": State_Name,
+                "District_Name":District_Name,
+                "Constituency_Name":Constituency_Name
+            }
+            response = requests.post(self.base_url + api_path_list_polling_booths,json=data, headers=self.base_headers)
+            # return self.base_url + api_path_list_polling_booths + State_Name + District_Name + Constituency_Name
+            return response.json()['polling_stations']
+        except:
+            return None
+
     def login(self, login_details):
         try:
             credentials = {

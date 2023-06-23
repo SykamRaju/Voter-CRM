@@ -30,6 +30,9 @@ from Views.Login import Login
 
 from Views.VotersList import DisplayVoters
 
+# from Views.UploadBooths import UploadBooths
+from Views.ListBooths import ListBooths
+
 config = toml.load(".streamlit/config.toml")
 api_base_url = "http://{}:8000/".format(
     os.getenv('SERVER_URL', '127.0.0.1')
@@ -78,8 +81,8 @@ if api.is_logged_in():
         selected = option_menu(
             menu_title="Main Menu",
             options=["States", "Districts", "Constituencies",
-                     "Political Parties", "Display Voters List", "Register Agent", "Change Password", "Log Out"],
-            icons=['patch-check', 'patch-check', 'patch-check', 'patch-check',
+                     "Political Parties", "Polling Booths","Display Voters List", "Register Agent", "Change Password", "Log Out"],
+            icons=['patch-check', 'patch-check', 'patch-check', 'patch-check', 'patch-check',
                    'patch-check', 'person-plus', 'shuffle', 'box-arrow-left'],
             menu_icon="app-indicator",
             styles={
@@ -191,6 +194,40 @@ if api.is_logged_in():
             # DeleteConstituency(api.get_constituencies_for_given_district, api.delete_constituency)
             DeleteConstituency(api.get_states,api.get_districts_for_given_state,api.get_constituencies_for_given_district, api.delete_constituency)
 
+    
+
+
+
+     ###############################################################
+    #
+    #   P O L L I N G   B O O T H S
+    #
+    ###############################################################
+    if selected == "Polling Booths":
+        tab1, tab2, tab3 = st.tabs(
+            ["Upload Polling Booths", "View Polling Booths", "Download Polling Booths"])
+
+        with tab1:
+            # Upload Polling Booths
+            st.write("Upload Polling Booths")
+            # UploadBooths(api.get_states,api.get_districts_for_given_state,api.get_constituencies_for_given_district)
+            
+        with tab2:
+            # View Polling Booths
+            ListBooths(api.get_states,api.get_districts_for_given_state,api.get_constituencies_for_given_district, api.list_polling_booths)
+
+        with tab3:
+            # Download Polling Booths
+            st.write("Download Booths")
+            # EditConstituency(api.get_states,api.get_districts_for_given_state,api.get_constituencies_for_given_district, api.edit_constituency)
+
+
+    
+
+
+    
+    
+    
     ###############################################################
     #
     #   D I S P L A Y   V O T E R S   L I S T

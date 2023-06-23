@@ -44,6 +44,10 @@ list_parties = "/admin/politicalparties_list"
 add_party = "/admin/add_politicalparty"
 delete_party = "/admin/delete_politicalparty"
 
+
+list_polling_booths = "admin/list_pollingstations"
+
+
 [theme]
 primaryColor="#1b4332"
 backgroundColor="#fff"
