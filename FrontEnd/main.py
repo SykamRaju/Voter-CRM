@@ -30,7 +30,7 @@ from Views.Login import Login
 
 from Views.VotersList import DisplayVoters
 
-# from Views.UploadBooths import UploadBooths
+from Views.UploadBooths import UploadBooths
 from Views.ListBooths import ListBooths
 from Views.DownloadBooths import DownloadBooths
 
@@ -210,8 +210,7 @@ if api.is_logged_in():
 
         with tab1:
             # Upload Polling Booths
-            st.write("Upload Polling Booths")
-            # UploadBooths(api.get_states,api.get_districts_for_given_state,api.get_constituencies_for_given_district)
+            UploadBooths(api.upload_polling_booths)
             
         with tab2:
             # View Polling Booths

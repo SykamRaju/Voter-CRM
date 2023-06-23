@@ -1,6 +1,7 @@
 import requests
 import extra_streamlit_components as stx
 import toml
+import os
 
 config = toml.load(".streamlit/config.toml")
 api_path_auth_login = config['api_url']['auth_login']
@@ -41,13 +42,17 @@ api_path_delete_party = config['api_url']['delete_party']
 
 api_path_list_polling_booths = config['api_url']['list_polling_booths']
 api_path_download_polling_booths = config['api_url']['download_polling_booths']
-
+api_path_upload_polling_booths = config['api_url']['upload_polling_booths']
 
 class API:
     def __init__(self, base_url: str, token: str):
         self.base_url = base_url
         self.base_headers = {
             "Content-Type": "application/json",
+            "token": token,
+            "signupkey": "signupkey"
+        }
+        self.file_upload_headers = {
             "token": token,
             "signupkey": "signupkey"
         }
@@ -266,7 +271,15 @@ class API:
         except:
             return None
         
+    def upload_polling_booths(self,file_to_upload):
+        try:
 
+            files=[('file',('Booths Data.csv',open(file_to_upload,'rb'),'text/csv'))]
+            response = requests.post(self.base_url + api_path_upload_polling_booths,headers=self.file_upload_headers,files=files)
+            return response.json()['message']
+        except:
+            return None
+        
     def login(self, login_details):
         try:
             credentials = {

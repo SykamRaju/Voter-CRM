@@ -44,7 +44,7 @@ list_parties = "/admin/politicalparties_list"
 add_party = "/admin/add_politicalparty"
 delete_party = "/admin/delete_politicalparty"
 
-
+upload_polling_booths = "admin/upload_pollingstations"
 list_polling_booths = "admin/list_pollingstations"
 download_polling_booths = "admin/download_pollingstations"
 
