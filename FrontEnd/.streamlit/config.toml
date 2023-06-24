@@ -42,6 +42,7 @@ delete_constituency = "admin/delete_constituency"
 list_parties = "/admin/politicalparties_list"
 add_party = "/admin/add_politicalparty"
 delete_party = "/admin/delete_politicalparty"
+update_party = "admin/update_politicalparty"
 
 upload_polling_booths = "admin/upload_pollingstations"
 list_polling_booths = "admin/list_pollingstations"

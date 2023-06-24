@@ -39,6 +39,7 @@ api_path_list_voters = config['api_url']['list_voters']
 api_path_list_parties = config['api_url']['list_parties']
 api_path_add_party = config['api_url']['add_party']
 api_path_delete_party = config['api_url']['delete_party']
+api_path_update_party = config['api_url']['update_party']
 
 api_path_list_polling_booths = config['api_url']['list_polling_booths']
 api_path_download_polling_booths = config['api_url']['download_polling_booths']
@@ -225,7 +226,22 @@ class API:
                 return True
         except:
             return False
-        
+
+    def edit_party(self,Existing_Party_Name,Update_Party_Name,Update_Party_Symbol,Update_Party_Status,Update_Party_State,Update_Party_President):
+        try:
+            party={
+                "Existing_Party_Name":Existing_Party_Name,
+                "Update_Party_Name":Update_Party_Name,
+                "Update_Party_Symbol":Update_Party_Symbol,
+                "Update_Party_Status":Update_Party_Status,
+                "Update_Party_State":Update_Party_State,
+                "Update_Party_President":Update_Party_President
+            }
+            response=requests.post(self.base_url+api_path_update_party,json=party,headers=self.base_headers)
+            if response.status_code==200:
+                return response.json()['message']
+        except:
+            return False        
 
     def delete_party(self,party_name):
         try:
