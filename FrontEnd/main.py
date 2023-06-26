@@ -23,6 +23,7 @@ from Views.DeleteConstituency import DeleteConstituency
 from Views.DisplayParties import DisplayParties
 from Views.AddParty import AddParty
 from Views.DeleteParty import DeleteParty
+from Views.UpdateParty import UpdateParty
 
 from Views.ChangePassword import ChangePassword
 from Views.RegisterAgent import RegisterAgent
@@ -49,8 +50,6 @@ st.markdown("""
             .main .block-container {
                 margin-top: -4rem;
             }
-
-            #MainMenu {visibility: hidden;}
             footer {visibility: hidden;}
         </style>
         """, unsafe_allow_html=True)
@@ -269,8 +268,8 @@ if api.is_logged_in():
     #
     ###############################################################
     if selected == "Political Parties":
-        tab1, tab2, tab3 = st.tabs(
-            ["View Political Parties", "Add Political Party", "Delete Political Party"])
+        tab1, tab2, tab3, tab4 = st.tabs(
+            ["View Political Parties", "Add Political Party","Update Political Party", "Delete Political Party"])
 
         with tab1:
             # List Political Parties
@@ -281,6 +280,10 @@ if api.is_logged_in():
             AddParty(api.add_party,api.get_states)
 
         with tab3:
+            # Update a Political Party
+            UpdateParty(api.get_states,api.get_parties,api.edit_party)    
+
+        with tab4:
             # Delete a Political Party
             DeleteParty(api.get_parties, api.delete_party)
 
