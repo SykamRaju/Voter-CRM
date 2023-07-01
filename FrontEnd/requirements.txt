@@ -7,3 +7,5 @@ pillow
 streamlit-extras
 requests
 plotly
+openpyxl
+scikit-learn
