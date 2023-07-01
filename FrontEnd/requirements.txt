@@ -6,3 +6,4 @@ streamlit_option_menu
 pillow
 streamlit-extras
 requests
+plotly

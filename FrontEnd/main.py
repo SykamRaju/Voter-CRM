@@ -4,6 +4,9 @@ import extra_streamlit_components as stx
 from streamlit_option_menu import option_menu
 import toml
 import os
+import pandas as pd
+import warnings
+warnings.filterwarnings('ignore')
 
 from Views.AddState import AddState
 from Views.DisplayStates import DisplayStates
@@ -39,6 +42,39 @@ from Views.UploadVoters import UploadVoters
 from Views.ListVoters import ListVoters
 from Views.DownloadVoters import DownloadVoters
 
+from Views.Analytics import ClusterIdentification
+from Views.Analytics import VoterOtherAnalysis
+from Views.Analytics import VoterFinancialAnalysis
+from Views.Analytics import VoterPersonalDetailAnalysis
+from Views.Analytics import PoliticalAffinity1
+from Views.Analytics import PoliticalAffinity2
+
+st.set_page_config(page_title = 'Voter CRM',
+                   layout='wide',
+                  initial_sidebar_state="expanded")
+@st.cache_data
+def convert_excel_to_json(excel_file_path):
+    # Read the Excel file into a pandas DataFrame
+    df = pd.read_excel(excel_file_path)
+
+    # Convert DataFrame to JSON
+    json_data = df.to_json(orient='records')
+
+    # Return the JSON data
+    return json_data
+
+excel_file_path = 'data/voterCRM.xlsx'
+json_data = convert_excel_to_json(excel_file_path)
+
+@st.cache_data
+def convert_json_to_dataframe(json_data):
+    # Read JSON data into a pandas DataFrame
+    df = pd.read_json(json_data)
+
+    # Return the DataFrame
+    return df
+
+df = convert_json_to_dataframe(json_data)
 
 config = toml.load(".streamlit/config.toml")
 api_base_url = "http://{}:8000/".format(
@@ -53,6 +89,14 @@ st.markdown("""
             footer {visibility: hidden;}
         </style>
         """, unsafe_allow_html=True)
+hide_st_style = """
+                <style>
+                #MainMenu {visibility: hidden;}
+                footer {visibility: hidden;}
+                header {visibility: hidden;}
+                </style>
+                """
+st.markdown(hide_st_style, unsafe_allow_html=True)
 
 cookie_manager = stx.CookieManager()
 cookies = cookie_manager.get_all()
@@ -86,8 +130,8 @@ if api.is_logged_in():
         selected = option_menu(
             menu_title="Main Menu",
             options=["States", "Districts", "Constituencies",
-                     "Political Parties", "Polling Booths","Display Voters List", "Register Agent", "Change Password", "Log Out"],
-            icons=['patch-check', 'patch-check', 'patch-check', 'patch-check', 'patch-check',
+                     "Political Parties", "Polling Booths","Display Voters List", "Register Agent", "Analytics", "Change Password", "Log Out"],
+            icons=['patch-check', 'patch-check', 'patch-check', 'patch-check', 'patch-check', 'patch-check',
                    'patch-check', 'person-plus', 'shuffle', 'box-arrow-left'],
             menu_icon="app-indicator",
             styles={
@@ -97,6 +141,153 @@ if api.is_logged_in():
                              "--hover-color": "rgba(128,128,128,0.25)"}
             }
         )
+
+        if selected == "Analytics":
+            with st.sidebar:
+                with st.expander("Select Street"):
+                    street = df['street'].unique()
+                    selected_streets = st.multiselect("Choose Street", street, default=street, key = "1")
+
+            with st.expander("Select Ward"):
+                ward = df['ward'].unique()
+                selected_wards = st.multiselect("Choose Ward", ward, default=ward, key = "2")
+
+            with st.expander("Select Constituency"):
+                constituency = df['constituency_name'].unique()
+                selected_constituencies = st.multiselect("Choose Constituency", constituency, default=constituency, key = "3")
+
+            with st.expander("Select Polling Booth"):
+                polling_booth = df['polling_booth_name'].unique()
+                selected_booths = st.multiselect("Choose Polling Booth", polling_booth, default=polling_booth, key = "4")
+
+            with st.expander("Select Polling Booth No."):
+                polling_booth_no = df['polling_booth_no'].unique()
+                selected_booth_no = st.multiselect("Choose Polling Booth No.", polling_booth_no, default=polling_booth_no, key = "5")
+
+            with st.expander("Select Gender"):
+                gender = df['voter_gender'].unique()
+                selected_genders = st.multiselect("Choose Gender", gender, default=gender, key = "6")
+
+            with st.expander("Select Marital Status"):
+                marital_status = df['voter_marital_status'].unique()
+                selected_marital_status = st.multiselect("Choose Marital Status", marital_status, default=marital_status, key = "7")
+
+            with st.expander("Select Dependents of Voter"):
+                voter_dependents = df['number_of_dependents_of_the_voter'].unique()
+                selected_voter_dependents = st.multiselect("Choose Dependents of Voter", voter_dependents, default=voter_dependents, key = "8")
+
+            with st.expander("BPL Voter?"):
+                bpl = df['BPL'].unique()
+                selected_bpl_voters = st.multiselect("Choose BPL Voter?", bpl, default=bpl, key = "9")
+
+            with st.expander("Select Police Cases on Voter"):
+                police_case = df['number_of_police_cases_on_voter'].unique()
+                selected_police_cases = st.multiselect("Choose Police Cases on Voter", police_case, default=police_case, key = "10")
+
+            with st.expander("Select Police Cases on Family"):
+                police_case_family = df['number_of_police_cases_on_voters_family_members'].unique()
+                selected_police_cases_family = st.multiselect("Choose Police Cases on Family", police_case_family, default=police_case_family, key = "11")
+
+            with st.expander("Select Voter Political Party"):
+                political_party = df['voter_political_party'].unique()
+                selected_political_parties = st.multiselect("Choose Voter Political Party", political_party, default=political_party, key = "12")
+
+            with st.expander("Select Political Party Voter Wish to Vote"):
+                political_party_to_vote = df['which_political_party_you_wish_to_vote'].unique()
+                selected_parties_to_vote = st.multiselect("Choose Political Party Voter Wish to Vote", political_party_to_vote, default=political_party_to_vote, key = "13")
+
+            with st.expander("Select Voter Opinion on Present Govt."):
+                opn_present_govt = df['opinion_label_on_present_government'].unique()
+                selected_opn_present_govt = st.multiselect("Choose Voter Opinion on Present Govt.", opn_present_govt, default=opn_present_govt, key = "14")
+
+            with st.expander("Select Voter Opinion on Local MLA"):
+                opn_local_MLA = df['opinion_label_on_local_MLA'].unique()
+                selected_opn_local_MLA = st.multiselect("Choose Voter Opinion on Local MLA", opn_local_MLA, default=opn_local_MLA, key = "15")
+
+            with st.expander("Select Voter Opinion on Opp Party MLA"):
+                opn_opp_MLA = df['opinion_label_on_opposition_party_MLA_candidate'].unique()
+                selected_opn_opp_MLA = st.multiselect("Choose Voter Opinion on Opp Party MLA", opn_opp_MLA, default=opn_opp_MLA, key = "36")
+
+            with st.expander("Select Voter Opinion Corporator/Village President"):
+                opn_corp_president = df['opinion_label_on_local_coporator_or_village_president'].unique()
+                selected_opn_corp_president = st.multiselect("Choose Voter Opinion Corporator/Village President", opn_corp_president, default=opn_corp_president, key = "16")
+
+            with st.expander("Voter Politically Neutral?"):
+                politically_neutral = df['whether_voter_is_politically_neutral'].unique()
+                selected_politically_neutral = st.multiselect("Choose Politically Neutral?", politically_neutral, default=politically_neutral, key = "17")
+
+            with st.expander("Select Voter Reservation Category"):
+                reservation = df['reservation_category'].unique()
+                selected_reservation = st.multiselect("Choose Voter Reservation Category", reservation, default=reservation, key = "18")
+
+            with st.expander("Select Voter Religion"):
+                religion = df['voter_religion'].unique()
+                selected_religion = st.multiselect("Choose Voter Religion", religion, default=religion, key = "19")
+
+            with st.expander("Select Voter Caste"):
+                caste = df['voter_caste'].unique()
+                selected_caste = st.multiselect("Choose Voter Caste", caste, default=caste, key = "20")
+
+            with st.expander("Select Voter Mother Tongue"):
+                mother_tongue = df['voter_mother_tongue'].unique()
+                selected_mother_tongue = st.multiselect("Choose Voter Mother Tongue", mother_tongue, default=mother_tongue, key = "21")
+
+            with st.expander("Voter Migrated?"):
+                migrated = df['whether_voter_is_migrated_from_another_place'].unique()
+                selected_migrated = st.multiselect("Choose Voter Migrated?", migrated, default=migrated, key = "22")
+
+            with st.expander("Select Voter Education"):
+                education = df['voter_educational_qualification'].unique()
+                selected_education = st.multiselect("Choose Voter Education", education, default=education, key = "23")
+
+            with st.expander("Select Voter Profession"):
+                profession = df['voter_profession'].unique()
+                selected_profession = st.multiselect("Choose Voter Profession", profession, default=profession, key = "24")
+
+            with st.expander("Voter Getting Govt. Benefits?"):
+                voter_govt_benefits = df['whether_voter_is_getting_government_benefits'].unique()
+                selected_voter_govt_benefits = st.multiselect("Choose Voter Getting Govt. Benefits?", voter_govt_benefits, default=voter_govt_benefits, key = "25")
+
+            with st.expander("Family Getting Govt. Benefits?"):
+                family_govt_benefits = df['whether_voters_family_is_getting_government_benefits'].unique()
+                selected_family_govt_benefits = st.multiselect("Choose Family Getting Govt. Benefits?", family_govt_benefits, default=family_govt_benefits, key = "26")
+
+            with st.expander("Select Family Members Visited Foreign Country"):
+                family_visited_foreign = df['number_of_members_visited_foreign_country_in_voters_family'].unique()
+                selected_family_visited_foreign = st.multiselect("Choose Family Members Visited Foreign Country", family_visited_foreign, default=family_visited_foreign, key = "27")
+
+            with st.expander("Voter Accepts Money?"):
+                voter_accept_money = df['whether_voter_accepts_money_from_political_party'].unique()
+                selected_voter_accept_money = st.multiselect("Choose Voter Accepts Money?", voter_accept_money, default=voter_accept_money, key = "28")
+
+            with st.expander("Family Accepts Money?"):
+                family_accept_money = df['whether_voters_family_accepts_money_from_political_party'].unique()
+                selected_family_accept_money = st.multiselect("Choose Family Accepts Money?", family_accept_money, default=family_accept_money, key = "29")
+
+            with st.expander("Voter Own House?"):
+                voter_own_house = df['voter_has_own_house'].unique()
+                selected_voter_own_house = st.multiselect("Choose Voter Own House?", voter_own_house, default=voter_own_house, key = "30")
+
+            with st.expander("Voter Own Car?"):
+                voter_own_car = df['voter_has_own_car'].unique()
+                selected_voter_own_car = st.multiselect("Choose Voter Own Car?", voter_own_car, default=voter_own_car, key = "31")
+
+            with st.expander("Voter Own Bike?"):
+                voter_own_bike = df['voter_has_own_bike'].unique()
+                selected_voter_own_bike = st.multiselect("Choose Voter Own Bike?", voter_own_bike, default=voter_own_bike, key = "32")
+
+            with st.expander("Voting First Time?"):
+                voting_first_time = df['voting_first_time'].unique()
+                selected_voting_first_time = st.multiselect("Choose Voting First Time?", voting_first_time, default=voting_first_time, key = "33")
+
+            with st.expander("Voted in Last Election?"):
+                voted_in_last_election = df['voted_in_last_election'].unique()
+                selected_voted_in_last_election = st.multiselect("Choose Voted in Last Election?", voted_in_last_election, default=voted_in_last_election, key = "34")
+
+            with st.expander("Voter Handicap?"):
+                voter_handicap = df['is_voter_handicap'].unique()
+                selected_voter_handicap = st.multiselect("Choose Voter Handicap?", voter_handicap, default=voter_handicap, key = "35")
+            filter={"selected_streets":selected_streets,"selected_booth_no":selected_booth_no,"selected_booths":selected_booths,"selected_bpl_voters":selected_bpl_voters,"selected_caste":selected_caste,"selected_constituencies":selected_constituencies,"selected_education":selected_education,"selected_family_accept_money":selected_family_accept_money,"selected_family_govt_benefits":selected_family_govt_benefits,"selected_family_visited_foreign":selected_family_visited_foreign,"selected_genders":selected_genders,"selected_marital_status":selected_marital_status,"selected_migrated":selected_migrated,"selected_mother_tongue":selected_mother_tongue,"selected_opn_corp_president":selected_opn_corp_president,"selected_opn_local_MLA":selected_opn_local_MLA,"selected_opn_opp_MLA":selected_opn_opp_MLA,"selected_opn_present_govt":selected_opn_present_govt,"selected_parties_to_vote":selected_parties_to_vote,"selected_police_cases":selected_police_cases,"selected_police_cases_family":selected_police_cases_family,"selected_political_parties":selected_political_parties,"selected_politically_neutral":selected_politically_neutral,"selected_profession":selected_profession,"selected_religion":selected_religion,"selected_reservation":selected_reservation,"selected_voter_dependents":selected_voter_dependents,"selected_voted_in_last_election":selected_voted_in_last_election,"selected_voter_accept_money":selected_voter_accept_money,"selected_voter_govt_benefits":selected_voter_govt_benefits,"selected_voter_handicap":selected_voter_handicap,"selected_voter_own_bike":selected_voter_own_bike,"selected_voter_own_car":selected_voter_own_car,"selected_voter_own_house":selected_voter_own_house,"selected_voting_first_time":selected_voting_first_time,"selected_wards":selected_wards}
 
     ###############################################################
     #
@@ -287,6 +478,33 @@ if api.is_logged_in():
             # Delete a Political Party
             DeleteParty(api.get_parties, api.delete_party)
 
+    ###############################################################
+    #
+    #   A N A L Y T I C S
+    #
+    ###############################################################
+    if selected == "Analytics":
+        tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(
+            ["Political Affinity 1","Political Affinity 2","Voter Personal Detail Analysis", "Voter Financial Analysis", "Voter Other Analysis", "Cluster Identification"])
+
+        with tab1:
+            PoliticalAffinity1(df,filter)
+
+        with tab2:
+            PoliticalAffinity2(df,filter)
+
+        with tab3:
+            VoterPersonalDetailAnalysis(df,filter)
+
+        with tab4:
+            VoterFinancialAnalysis(df,filter)
+
+        with tab5:
+            VoterOtherAnalysis(df,filter)
+
+        with tab6:
+            # Delete State
+            ClusterIdentification(df,filter)
 
 elif api.is_agent_logged_in():
     with st.sidebar:
