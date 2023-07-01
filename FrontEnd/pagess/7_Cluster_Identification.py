@@ -2,12 +2,8 @@ import pandas as pd
 import streamlit as st
 import plotly.express as px
 # from numerize.numerize import numerize
-import plotly.graph_objects as go
-import numpy as np
-import streamlit.components.v1 as com
 import warnings
 warnings.filterwarnings('ignore')
-import utils
 from API import API
 import extra_streamlit_components as stx
 import toml
@@ -83,13 +79,10 @@ st.markdown("""
                     padding-top: 0rem;
                     padding-bottom: 0rem;
                 }
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
         </style>
         """, unsafe_allow_html=True)
-
-st.markdown(""" <style>
-#MainMenu {visibility: hidden;}
-footer {visibility: hidden;}
-</style> """, unsafe_allow_html=True)
 
 if api.is_logged_in():
     st.sidebar.title("Navigation & Filters")
