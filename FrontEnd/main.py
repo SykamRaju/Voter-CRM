@@ -52,29 +52,13 @@ from Views.Analytics import PoliticalAffinity2
 st.set_page_config(page_title = 'Voter CRM',
                    layout='wide',
                   initial_sidebar_state="expanded")
+
+json_file_name = 'voter_data.json'
 @st.cache_data
-def convert_excel_to_json(excel_file_path):
-    # Read the Excel file into a pandas DataFrame
-    df = pd.read_excel(excel_file_path)
+def convert_json_file_to_df(json_file_name):
+    return pd.read_json(json_file_name)
 
-    # Convert DataFrame to JSON
-    json_data = df.to_json(orient='records')
-
-    # Return the JSON data
-    return json_data
-
-excel_file_path = 'data/voterCRM.xlsx'
-json_data = convert_excel_to_json(excel_file_path)
-
-@st.cache_data
-def convert_json_to_dataframe(json_data):
-    # Read JSON data into a pandas DataFrame
-    df = pd.read_json(json_data)
-
-    # Return the DataFrame
-    return df
-
-df = convert_json_to_dataframe(json_data)
+df = convert_json_file_to_df(json_file_name)
 
 config = toml.load(".streamlit/config.toml")
 api_base_url = "http://{}:8000/".format(
