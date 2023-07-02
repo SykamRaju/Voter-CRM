@@ -494,8 +494,8 @@ elif api.is_agent_logged_in():
     with st.sidebar:
         agent_selected = option_menu(
             menu_title="Main Menu",
-            options=["Upload Voter Details", "Display Voters List", "Change Password", "Log Out"],
-            icons=['file-arrow-up', 'patch-check', 'shuffle', 'box-arrow-left'],
+            options=["Display Voters List", "Change Password", "Log Out"],
+            icons=['patch-check', 'shuffle', 'box-arrow-left'],
             menu_icon="app-indicator",
             styles={
                 "container": {"padding": "5px !important"},
@@ -504,6 +504,28 @@ elif api.is_agent_logged_in():
                              "--hover-color": "rgba(128,128,128,0.25)"}
             }
         )
+
+###############################################################
+    #
+    #   D I S P L A Y   V O T E R S   L I S T
+    #
+    ###############################################################
+    if agent_selected == "Display Voters List":
+        # DisplayVoters(api.get_voters)
+        tab1, tab2, tab3 = st.tabs(
+            ["Upload Voters", "View Voters", "Download Voters"])
+
+        with tab1:
+            # Upload Voters
+            UploadVoters(api.upload_voters)
+            
+        with tab2:
+            # View Voters
+            ListVoters(api.get_states,api.get_districts_for_given_state,api.get_constituencies_for_given_district, api.list_voters)
+
+        with tab3:
+            # Download Voters
+            DownloadVoters(api.get_states,api.get_districts_for_given_state,api.get_constituencies_for_given_district, api.download_voters)        
 
     ###############################################################
     #
@@ -527,13 +549,7 @@ elif api.is_agent_logged_in():
     if agent_selected == "Change Password":
         ChangePassword(manage_changepassword)
 
-    ###############################################################
-    #
-    #   D I S P L A Y  V O T E R S  L I S T
-    #
-    ###############################################################
-    if agent_selected == "Display Voters List":
-        DisplayVoters(api.get_voters)
+
 
 else:
     Login(manage_login, manage_signup)
