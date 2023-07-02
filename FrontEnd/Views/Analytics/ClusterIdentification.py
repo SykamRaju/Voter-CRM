@@ -5,6 +5,7 @@ import plotly.express as px
 class ClusterIdentification:
     def __init__(self,df,filter):
         # Check if no options are selected
+        er=""
         try:
             if len(filter["selected_streets"]) == 0:
                 raise ValueError('Please select at least one option for Voter Street.')
@@ -120,6 +121,7 @@ class ClusterIdentification:
 
         except ValueError as e:
             # Handle the exception by displaying an error message to the user
+            er=e
             st.error(str(e))
 
         df_selection = df.query('constituency_name == @filter["selected_constituencies"] & polling_booth_no == @filter["selected_booth_no"] & opinion_label_on_local_coporator_or_village_president == @filter["selected_opn_corp_president"] & opinion_label_on_opposition_party_MLA_candidate == @filter["selected_opn_opp_MLA"] & opinion_label_on_local_MLA == @filter["selected_opn_local_MLA"] & opinion_label_on_present_government == @filter["selected_opn_present_govt"] & which_political_party_you_wish_to_vote == @filter["selected_parties_to_vote"] & is_voter_handicap == @filter["selected_voter_handicap"] & number_of_members_visited_foreign_country_in_voters_family == @filter["selected_family_visited_foreign"] & number_of_dependents_of_the_voter == @filter["selected_voter_dependents"] & voter_mother_tongue == @filter["selected_mother_tongue"] & polling_booth_name == @filter["selected_booths"] & voter_gender == @filter["selected_genders"] & voter_marital_status == @filter["selected_marital_status"] & BPL == @filter["selected_bpl_voters"] & number_of_police_cases_on_voter == @filter["selected_police_cases"] & number_of_police_cases_on_voters_family_members == @filter["selected_police_cases_family"] & voter_political_party == @filter["selected_political_parties"] & whether_voter_is_politically_neutral == @filter["selected_politically_neutral"] & reservation_category == @filter["selected_reservation"] & voter_religion == @filter["selected_religion"] & voter_caste == @filter["selected_caste"] & whether_voter_is_migrated_from_another_place == @filter["selected_migrated"] & voter_profession == @filter["selected_profession"] & voter_educational_qualification == @filter["selected_education"] & street == @filter["selected_streets"] & ward == @filter["selected_wards"] & whether_voter_is_getting_government_benefits == @filter["selected_voter_govt_benefits"] & whether_voters_family_is_getting_government_benefits == @filter["selected_family_govt_benefits"] & whether_voter_accepts_money_from_political_party == @filter["selected_voter_accept_money"] & whether_voters_family_accepts_money_from_political_party == @filter["selected_family_accept_money"] & voter_has_own_house == @filter["selected_voter_own_house"] & voter_has_own_car == @filter["selected_voter_own_car"] & voter_has_own_bike == @filter["selected_voter_own_bike"] & voting_first_time == @filter["selected_voting_first_time"] & voted_in_last_election == @filter["selected_voted_in_last_election"]')
@@ -172,100 +174,102 @@ class ClusterIdentification:
             st.image('images/user.png',caption = "User Name",width = 50,use_column_width='Auto')
 
         Q1,Q2 = st.columns((1,1))
-
-        with Q1:
-            X = df_selection[['voter_age','voter_income_per_month']]
-            from sklearn.cluster import KMeans
-            wcss = []
-            for i in range(1, 11):
-                kmeans = KMeans(n_clusters = i, init = 'k-means++', random_state = 42)
-                kmeans.fit(X)
-                wcss.append(kmeans.inertia_)
-            kmeans = KMeans(n_clusters = 4, init = 'k-means++', random_state = 42)
-            y_kmeans = kmeans.fit_predict(X)
-            X['cluster'] = y_kmeans
-            # st.markdown("<h5 style='text-align: center; color: #5B9BD5;'>Age Vs. Voter Income per Month</h5>", unsafe_allow_html=True)
-            fig = px.scatter(X, x="voter_age", y="voter_income_per_month", color="cluster")
-            fig.update_layout(
-                                title={
-                                    'text': 'Age Vs. Voter Income per Month',
-                                    'x': 0.2,  # Align title to the center of the chart
-                                    'y': 0.9,  # Adjust the vertical position of the title
-                                    'font': {
-                                        'family': 'sans serif',  # Specify font family
-                                        'color': '#5B9BD5',  # Specify font color
+        try:
+            with Q1:
+                X = df_selection[['voter_age','voter_income_per_month']]
+                from sklearn.cluster import KMeans
+                wcss = []
+                for i in range(1, 11):
+                    kmeans = KMeans(n_clusters = i, init = 'k-means++', random_state = 42)
+                    kmeans.fit(X)
+                    wcss.append(kmeans.inertia_)
+                kmeans = KMeans(n_clusters = 4, init = 'k-means++', random_state = 42)
+                y_kmeans = kmeans.fit_predict(X)
+                X['cluster'] = y_kmeans
+                # st.markdown("<h5 style='text-align: center; color: #5B9BD5;'>Age Vs. Voter Income per Month</h5>", unsafe_allow_html=True)
+                fig = px.scatter(X, x="voter_age", y="voter_income_per_month", color="cluster")
+                fig.update_layout(
+                                    title={
+                                        'text': 'Age Vs. Voter Income per Month',
+                                        'x': 0.2,  # Align title to the center of the chart
+                                        'y': 0.9,  # Adjust the vertical position of the title
+                                        'font': {
+                                            'family': 'sans serif',  # Specify font family
+                                            'color': '#5B9BD5',  # Specify font color
+                                        }
                                     }
-                                }
-                            )
-            fig.update_layout(
-                                xaxis_title="Age",
-                                yaxis_title="Income"
-                            )
-            fig.update_layout(height=225)
-            st.plotly_chart(fig,use_container_width=True)
+                                )
+                fig.update_layout(
+                                    xaxis_title="Age",
+                                    yaxis_title="Income"
+                                )
+                fig.update_layout(height=225)
+                st.plotly_chart(fig,use_container_width=True)
 
-        with Q2:
-            X2 = df_selection[['voter_age','voter_family_income_per_month']]
-            from sklearn.cluster import KMeans
-            wcss = []
-            for i in range(1, 11):
-                kmeans = KMeans(n_clusters = i, init = 'k-means++', random_state = 42)
-                kmeans.fit(X2)
-                wcss.append(kmeans.inertia_)
-            kmeans = KMeans(n_clusters = 5, init = 'k-means++', random_state = 42)
-            y_kmeans = kmeans.fit_predict(X2)
-            X2['cluster'] = y_kmeans
-            # st.markdown("<h5 style='text-align: center; color: #5B9BD5;'>Age Vs. Voters Family Income per Month</h5>", unsafe_allow_html=True)
-            fig = px.scatter(X2, x="voter_age", y="voter_family_income_per_month", color="cluster")
-            fig.update_layout(
-                                title={
-                                    'text': 'Age Vs. Voters Family Income per Month',
-                                    'x': 0.2,  # Align title to the center of the chart
-                                    'y': 0.9,  # Adjust the vertical position of the title
-                                    'font': {
-                                        'family': 'sans serif',  # Specify font family
-                                        'color': '#5B9BD5',  # Specify font color
+            with Q2:
+                X2 = df_selection[['voter_age','voter_family_income_per_month']]
+                from sklearn.cluster import KMeans
+                wcss = []
+                for i in range(1, 11):
+                    kmeans = KMeans(n_clusters = i, init = 'k-means++', random_state = 42)
+                    kmeans.fit(X2)
+                    wcss.append(kmeans.inertia_)
+                kmeans = KMeans(n_clusters = 5, init = 'k-means++', random_state = 42)
+                y_kmeans = kmeans.fit_predict(X2)
+                X2['cluster'] = y_kmeans
+                # st.markdown("<h5 style='text-align: center; color: #5B9BD5;'>Age Vs. Voters Family Income per Month</h5>", unsafe_allow_html=True)
+                fig = px.scatter(X2, x="voter_age", y="voter_family_income_per_month", color="cluster")
+                fig.update_layout(
+                                    title={
+                                        'text': 'Age Vs. Voters Family Income per Month',
+                                        'x': 0.2,  # Align title to the center of the chart
+                                        'y': 0.9,  # Adjust the vertical position of the title
+                                        'font': {
+                                            'family': 'sans serif',  # Specify font family
+                                            'color': '#5B9BD5',  # Specify font color
+                                        }
                                     }
-                                }
-                            )
-            fig.update_layout(
-                                xaxis_title="Age",
-                                yaxis_title="Family Income"
-                            )
-            fig.update_layout(height=225)
-            st.plotly_chart(fig,use_container_width=True)
+                                )
+                fig.update_layout(
+                                    xaxis_title="Age",
+                                    yaxis_title="Family Income"
+                                )
+                fig.update_layout(height=225)
+                st.plotly_chart(fig,use_container_width=True)
 
-        Q1,Q2 = st.columns([100,1])
-        with Q1:
-            X3 = df_selection[['voter_monthly_spending','voter_income_per_month']]
-            from sklearn.cluster import KMeans
-            wcss = []
-            for i in range(1, 11):
-                kmeans = KMeans(n_clusters = i, init = 'k-means++', random_state = 42)
-                kmeans.fit(X3)
-                wcss.append(kmeans.inertia_)
-            kmeans = KMeans(n_clusters = 4, init = 'k-means++', random_state = 42)
-            y_kmeans = kmeans.fit_predict(X3)
-            X3['cluster'] = y_kmeans
-            # st.markdown("<h5 style='text-align: center; color: #5B9BD5;'>Voter Income Vs. Spending</h5>", unsafe_allow_html=True)
-            fig = px.scatter(X3, x="voter_monthly_spending", y="voter_income_per_month", color="cluster")
-            fig.update_layout(
-                                title={
-                                    'text': 'Voter Income Vs. Spending',
-                                    'x': 0.4,  # Align title to the center of the chart
-                                    'y': 0.9,  # Adjust the vertical position of the title
-                                    'font': {
-                                        'family': 'sans serif',  # Specify font family
-                                        'color': '#5B9BD5',  # Specify font color
+            Q1,Q2 = st.columns([100,1])
+            with Q1:
+                X3 = df_selection[['voter_monthly_spending','voter_income_per_month']]
+                from sklearn.cluster import KMeans
+                wcss = []
+                for i in range(1, 11):
+                    kmeans = KMeans(n_clusters = i, init = 'k-means++', random_state = 42)
+                    kmeans.fit(X3)
+                    wcss.append(kmeans.inertia_)
+                kmeans = KMeans(n_clusters = 4, init = 'k-means++', random_state = 42)
+                y_kmeans = kmeans.fit_predict(X3)
+                X3['cluster'] = y_kmeans
+                # st.markdown("<h5 style='text-align: center; color: #5B9BD5;'>Voter Income Vs. Spending</h5>", unsafe_allow_html=True)
+                fig = px.scatter(X3, x="voter_monthly_spending", y="voter_income_per_month", color="cluster")
+                fig.update_layout(
+                                    title={
+                                        'text': 'Voter Income Vs. Spending',
+                                        'x': 0.4,  # Align title to the center of the chart
+                                        'y': 0.9,  # Adjust the vertical position of the title
+                                        'font': {
+                                            'family': 'sans serif',  # Specify font family
+                                            'color': '#5B9BD5',  # Specify font color
+                                        }
                                     }
-                                }
-                            )
-            fig.update_layout(
-                                xaxis_title="Spending",
-                                yaxis_title="Income"
-                            )
-            fig.update_layout(height=230)
-            st.plotly_chart(fig,use_container_width=True)
+                                )
+                fig.update_layout(
+                                    xaxis_title="Spending",
+                                    yaxis_title="Income"
+                                )
+                fig.update_layout(height=230)
+                st.plotly_chart(fig,use_container_width=True)
+        except ValueError:
+            st.error("Cluster Identification failed : "+str(er))
 
         hide_st_style = """
                 <style>
